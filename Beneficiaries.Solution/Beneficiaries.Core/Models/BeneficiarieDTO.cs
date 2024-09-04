@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Beneficiaries.Core.Models
 {
-    [Table("BENEFICIARIE")]
+    [Table("BENEFICIARIES")]
     public class BeneficiarieDTO : BasePersonDTO
     {
         [Column("PARTICIPATIONPERCENTAJE"), Required]
