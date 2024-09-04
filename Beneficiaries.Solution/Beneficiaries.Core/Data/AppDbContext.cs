@@ -11,7 +11,7 @@ namespace Beneficiaries.Core.Data
 
         public DbSet<CountryDTO> Countries { get; set; }
         public DbSet<EmployeeDTO> Employees { get; set; }
-        public DbSet<BeneficiarieDTO> Beneficiaries { get; set; }
+        public DbSet<BeneficiaryDTO> Beneficiaries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beneficiaries.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240904210558_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20240904214124_AddStoredProcedures")]
+    partial class AddStoredProcedures
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace Beneficiaries.Core.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiarieDTO", b =>
+            modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiaryDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -146,7 +146,7 @@ namespace Beneficiaries.Core.Migrations
                     b.ToTable("EMPLOYEES");
                 });
 
-            modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiarieDTO", b =>
+            modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiaryDTO", b =>
                 {
                     b.HasOne("Beneficiaries.Core.Models.CountryDTO", "Country")
                         .WithMany()

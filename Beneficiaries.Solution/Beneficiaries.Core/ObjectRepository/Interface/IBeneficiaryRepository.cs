@@ -1,6 +1,6 @@
 ﻿namespace Beneficiaries.Core.ObjectRepository.Interface
 {
-    public interface IBeneficiarieRepository
+    public interface IBeneficiaryRepository
     {
     }
 }

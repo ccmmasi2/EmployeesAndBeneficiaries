@@ -1,28 +1,54 @@
-﻿using Beneficiaries.Core.Models;
+﻿using Beneficiaries.Core.Data;
+using Beneficiaries.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
 {
     public class EmployeeRepository
     {
+        private readonly AppDbContext _context;
+
+        public EmployeeRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<int> Add(EmployeeDTO employee)
+        {
+            var newEmployeeId = await _context.Database.ExecuteSqlRawAsync(@"
+                EXEC InsertEmployee 
+                @Name = {0}, @LastName = {1}, @BirthDay = {2}, @CURP = {3}, 
+                @SSN = {4}, @PhoneNumber = {5}, @CountryId = {6}, @EmployeeNumber = {7}",
+                employee.Name, employee.LastName, employee.BirthDay, employee.CURP,
+                employee.SSN, employee.PhoneNUmber, employee.CountryId, employee.EmployeeNumber);
+
+            return newEmployeeId;
+        }
+
+        public async Task Update(EmployeeDTO employee)
+        {
+            await _context.Database.ExecuteSqlRawAsync(@"
+                EXEC UpdateEmployee 
+                @Id = {0}, @Name = {1}, @LastName = {2}, @BirthDay = {3}, 
+                @CURP = {4}, @SSN = {5}, @PhoneNumber = {6}, @CountryId = {7}, 
+                @EmployeeNumber = {8}",
+                employee.ID, employee.Name, employee.LastName, employee.BirthDay,
+                employee.CURP, employee.SSN, employee.PhoneNUmber,
+                employee.CountryId, employee.EmployeeNumber);
+        }
+
+        public async Task<string> Delete(int id)
+        {
+            await _context.Database.ExecuteSqlRawAsync("EXEC DeleteEmployee @Id = {0}", id);
+            return "Employee deleted successfully";
+        }
+
         public async Task<List<EmployeeDTO>> GetAllEmployees()
         {
-            return null;
+            return await _context.Employees
+                .FromSqlRaw("EXEC GetAllEmployees")
+                .ToListAsync();
         }
-
-        public async Task<string> Add(EmployeeDTO Employee)
-        {
-            return null;
-        }
-
-        public async Task<string> Update(EmployeeDTO Employee)
-        {
-            return null;
-        }
-
-        public async Task<string> Delete(EmployeeDTO Employee)
-        {
-            return null;
-        } 
 
         public async Task<EmployeeDTO> ObtXId(double Id)
         {
