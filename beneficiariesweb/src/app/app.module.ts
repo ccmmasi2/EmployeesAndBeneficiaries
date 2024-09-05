@@ -20,7 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MainpageComponent,
     HomeComponent
   ],
-  imports: [
+  imports: [ 
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -16,7 +16,7 @@ export class HeaderComponent {
     if (selectedValue === '1') {
       this.router.navigate(['']);
     } else if (selectedValue === '2') {
-      this.router.navigate(['/system/catalog']);
+      this.router.navigate(['/system/employees']);
     } else if (selectedValue === '3') {
       this.router.navigate(['/system/shopping-cart']);
     }

@@ -87,10 +87,10 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("ObtAllXEmployeeId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(double id)
+        public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(double employeeId)
         {
             _logger.LogInformation("Get list x Employee Id");
-            var LItems = await _beneficiaryService.ObtAllXEmployeeId(id);
+            var LItems = await _beneficiaryService.ObtAllXEmployeeId(employeeId);
             return Ok(LItems);
         }
     }
