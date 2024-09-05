@@ -1,8 +1,14 @@
 ﻿using Beneficiaries.Core.Models;
+using Beneficiaries.Core.ObjectRepository.Implementation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Beneficiaries.Core.ObjectRepository.Interface
+namespace Beneficiaries.Core.BusinessLogic.Interfaces
 {
-    public interface IBeneficiaryRepository
+    public interface IBeneficiaryService
     {
         Task<int> Add(BeneficiaryDTO beneficiary);
 

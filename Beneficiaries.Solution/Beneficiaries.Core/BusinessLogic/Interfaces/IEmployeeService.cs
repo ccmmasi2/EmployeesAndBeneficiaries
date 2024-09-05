@@ -1,8 +1,14 @@
 ﻿using Beneficiaries.Core.Models;
+using Beneficiaries.Core.ObjectRepository.Implementation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Beneficiaries.Core.ObjectRepository.Interface
+namespace Beneficiaries.Core.BusinessLogic.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeService
     {
         Task<int> Add(EmployeeDTO employee);
 
