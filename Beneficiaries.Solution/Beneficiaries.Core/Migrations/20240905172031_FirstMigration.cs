@@ -26,7 +26,7 @@ namespace Beneficiaries.Core.Migrations
                 columns: table => new
                 {
                     ID = table.Column<double>(type: "float", nullable: false),
-                    EMPLOYEENUMBER = table.Column<int>(type: "int", nullable: false),
+                    EMPLOYEENUMBER = table.Column<double>(type: "float", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BIRTHDAY = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -75,7 +75,7 @@ namespace Beneficiaries.Core.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "EMPLOYEES",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -92,6 +92,12 @@ namespace Beneficiaries.Core.Migrations
                 name: "IX_EMPLOYEES_CountryId",
                 table: "EMPLOYEES",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EMPLOYEES_EMPLOYEENUMBER",
+                table: "EMPLOYEES",
+                column: "EMPLOYEENUMBER",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

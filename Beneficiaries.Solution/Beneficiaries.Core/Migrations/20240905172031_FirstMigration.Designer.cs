@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beneficiaries.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240905170313_FirstMigration")]
+    [Migration("20240905172031_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,8 +112,8 @@ namespace Beneficiaries.Core.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeNumber")
-                        .HasColumnType("int")
+                    b.Property<double>("EmployeeNumber")
+                        .HasColumnType("float")
                         .HasColumnName("EMPLOYEENUMBER");
 
                     b.Property<string>("LastName")
@@ -142,6 +142,9 @@ namespace Beneficiaries.Core.Migrations
 
                     b.HasIndex("CountryId");
 
+                    b.HasIndex("EmployeeNumber")
+                        .IsUnique();
+
                     b.ToTable("EMPLOYEES");
                 });
 
@@ -156,7 +159,7 @@ namespace Beneficiaries.Core.Migrations
                     b.HasOne("Beneficiaries.Core.Models.EmployeeDTO", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Country");

@@ -110,8 +110,8 @@ namespace Beneficiaries.Core.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeNumber")
-                        .HasColumnType("int")
+                    b.Property<double>("EmployeeNumber")
+                        .HasColumnType("float")
                         .HasColumnName("EMPLOYEENUMBER");
 
                     b.Property<string>("LastName")
@@ -140,6 +140,9 @@ namespace Beneficiaries.Core.Migrations
 
                     b.HasIndex("CountryId");
 
+                    b.HasIndex("EmployeeNumber")
+                        .IsUnique();
+
                     b.ToTable("EMPLOYEES");
                 });
 
@@ -154,7 +157,7 @@ namespace Beneficiaries.Core.Migrations
                     b.HasOne("Beneficiaries.Core.Models.EmployeeDTO", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Country");
