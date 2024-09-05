@@ -1,0 +1,26 @@
+<header>
+    <nav class="navbar">
+      <div>
+        <h2>Orders administration</h2>
+      </div>
+      <button
+        mat-button
+        [routerLink]="['']"
+        routerLinkActive="router-link-active"
+        (click)="onHomeButtonClick()"
+        class="button"
+        >
+        <mat-icon aria-hidden="false" fontIcon="home"></mat-icon>
+        <label class="label">Home</label>
+      </button>
+      <div class="select-container">
+        <select id="selectOption" (change)="onOptionChange($event)">
+          <option value="1">Select an option</option>
+          <option value="2">Catalog</option>
+          <option value="3">Shopping cart</option>
+          <option value="4">Order list</option>
+        </select>
+      </div>
+    </nav>
+  </header> 
+  
