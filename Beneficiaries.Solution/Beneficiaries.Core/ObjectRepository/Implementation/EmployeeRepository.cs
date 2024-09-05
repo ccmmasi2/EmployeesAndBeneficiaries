@@ -46,7 +46,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Employee deleted successfully";
         }
 
-        public async Task<List<EmployeeDTO>> GetAllEmployees()
+        public async Task<List<EmployeeDTO>> GetAll()
         {
             return await _context.Employees
                 .FromSqlRaw("EXEC GetAllEmployees")

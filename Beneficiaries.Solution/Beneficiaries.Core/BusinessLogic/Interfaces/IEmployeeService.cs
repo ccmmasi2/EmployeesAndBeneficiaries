@@ -1,10 +1,4 @@
 ﻿using Beneficiaries.Core.Models;
-using Beneficiaries.Core.ObjectRepository.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Beneficiaries.Core.BusinessLogic.Interfaces
 {
@@ -16,7 +10,7 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
 
         Task<string> Delete(double id);
 
-        Task<List<EmployeeDTO>> GetAllEmployees();
+        Task<List<EmployeeDTO>> GetAll();
 
         Task<EmployeeDTO> ObtXId(double id);
     }

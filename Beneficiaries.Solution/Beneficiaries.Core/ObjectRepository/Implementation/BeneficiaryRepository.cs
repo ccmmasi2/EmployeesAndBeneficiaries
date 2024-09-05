@@ -46,7 +46,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Beneficiary deleted successfully";
         }
 
-        public async Task<List<BeneficiaryDTO>> GetAllBeneficiaries()
+        public async Task<List<BeneficiaryDTO>> GetAll()
         {
             return await _context.Beneficiaries
                 .FromSqlRaw("EXEC GetAllBeneficiaries")

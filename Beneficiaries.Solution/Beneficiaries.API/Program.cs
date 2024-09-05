@@ -1,3 +1,5 @@
+using Beneficiaries.Core.BusinessLogic.Implementation;
+using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Init;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,8 @@ var connectionString = builder.Configuration.GetConnectionString("BeneficiariesC
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IDBInitializer, DBInitializer>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IBeneficiaryService, BeneficiaryService>();
 
 var app = builder.Build();
 
