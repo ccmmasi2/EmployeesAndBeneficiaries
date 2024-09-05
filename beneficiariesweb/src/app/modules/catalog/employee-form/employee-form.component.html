@@ -1,0 +1,86 @@
+
+<div class="mat-app-backgroud basic-container">
+    <div class="contain-main">
+      <div class="contain-head">
+        <div class="contain-title">Employee</div> 
+      </div>
+      <div class="contain-body">
+        <div class="contain-table">
+            <div class="form-container">
+                <h2>Employee information</h2>
+                <form #orderForm="ngForm"> 
+                  
+                  <!-- <div class="form-group">
+                    <label class="labelText" for="selectIdentificationTypes">Identification type:</label> 
+                    <div class="select-container-intern">
+                        <div class="select-container">
+                          <select id="selectIdentificationTypes" 
+                                  name="selectIdentificationTypes"
+                                  placeholder="IdentificationTypes" 
+                                  [(ngModel)]="selectIdentificationTypeId" 
+                                  required
+                                  #identificationTypeIdField="ngModel"
+                                  [ngClass]="{ 'select-container': true, 'ng-invalid': identificationTypeIdField.invalid && (identificationTypeIdField.dirty || identificationTypeIdField.touched) }">
+                            <option *ngFor="let option of identificationTypeOptions" 
+                                    [value]="option.id">{{ option.name }}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>  --> 
+                  
+                  <div class="form-group">
+                    <label class="labelText" for="name">Name:</label>
+                    <input class="inputText" 
+                            type="text"
+                            id="name" 
+                            name="name" 
+                            [(ngModel)]="name"
+                            maxlength="50"
+                            required
+                            #nameField="ngModel"
+                            [ngClass]="{ 'inputText': true, 'ng-invalid': nameField.invalid && (nameField.dirty || nameField.touched) }">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="labelText" for="lastName">Last name:</label>
+                    <input class="inputText" 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            [(ngModel)]="lastName"
+                            maxlength="50"
+                            required
+                            #lastNameField="ngModel"
+                            [ngClass]="{ 'inputText': true, 'ng-invalid': lastNameField.invalid && (lastNameField.dirty || lastNameField.touched) }">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="labelText" for="birthDay">Birthday:</label>
+                    <input class="inputText" 
+                            type="date" 
+                            id="birthDay" 
+                            name="birthDay" 
+                            [(ngModel)]="birthDay"
+                            required
+                            #birthDayField="ngModel"
+                            [ngClass]="{ 'inputText': true, 'ng-invalid': birthDayField.invalid && (birthDayField.dirty || birthDayField.touched) }">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="labelText" for="phoneNumber">Phone number:</label>
+                    <input class="inputText" 
+                            type="text" 
+                            id="phoneNumber" 
+                            name="phoneNumber" 
+                            [(ngModel)]="phoneNumber"
+                            maxlength="50">
+                  </div> 
+                  
+                </form>
+                <button class="button" type="submit" (click)="submitForm()">Submit</button>
+              </div>
+        </div>
+        <div class="separator"></div>
+      </div>
+    </div>
+  </div>
