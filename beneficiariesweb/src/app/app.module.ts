@@ -7,22 +7,23 @@ import { HeaderComponent } from './layout/header/header.component';
 import { MainpageComponent } from './layout/mainpage/mainpage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { HomeComponent } from './modules/home/home.component';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     MainpageComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
