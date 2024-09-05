@@ -6,7 +6,7 @@ namespace Beneficiaries.Core.Models
     public class BasePersonDTO
     {
         [Key]
-        public int ID { get; set; }
+        public double ID { get; set; }
 
         [Column("NAME"), MaxLength(50), Required]
         public string Name { get; set; }

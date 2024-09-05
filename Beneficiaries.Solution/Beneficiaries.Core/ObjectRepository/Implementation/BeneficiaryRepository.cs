@@ -1,10 +1,11 @@
 ﻿using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Models;
+using Beneficiaries.Core.ObjectRepository.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
 {
-    public class BeneficiaryRepository
+    public class BeneficiaryRepository: IBeneficiaryRepository
     {
         private readonly AppDbContext _context;
 
@@ -52,12 +53,11 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
 
         public async Task<BeneficiaryDTO> ObtXId(double Id)
         {
-            return null;
-        }
+            var beneficiary = await _context.Beneficiaries
+            .FromSqlRaw("EXEC GetBeneficiaryById @Id = {0}", Id)
+            .FirstOrDefaultAsync();
 
-        public async Task<BeneficiaryDTO> ObtXFilter(string Filter)
-        {
-            return null;
-        }
+            return beneficiary;
+        } 
     }
 }

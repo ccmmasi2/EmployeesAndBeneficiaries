@@ -155,6 +155,47 @@ namespace Beneficiaries.Core.Migrations
                     WHERE ID = @Id;
                 END;
             ");
+
+            migrationBuilder.Sql(@"
+                CREATE PROCEDURE GetBeneficiaryById
+                    @Id FLOAT
+                AS
+                BEGIN
+                    SELECT 
+                        b.ID, 
+                        b.NAME, 
+                        b.LASTNAME, 
+                        b.BIRTHDAY, 
+                        b.CURP, 
+                        b.SSN, 
+                        b.PHONENUMBER, 
+                        b.CountryId, 
+                        b.PARTICIPATIONPERCENTAJE
+                    FROM BENEFICIARIES b
+                    WHERE b.ID = @Id;
+                END; 
+            ");
+
+            migrationBuilder.Sql(@"
+                CREATE PROCEDURE GetEmployeeById
+                    @Id FLOAT
+                AS
+                BEGIN
+                    SELECT 
+                        e.ID, 
+                        e.NAME, 
+                        e.LASTNAME, 
+                        e.BIRTHDAY, 
+                        e.CURP, 
+                        e.SSN, 
+                        e.PHONENUMBER, 
+                        e.CountryId, 
+                        e.EMPLOYEENUMBER
+                    FROM EMPLOYEES e
+                    WHERE e.ID = @Id;
+                END
+
+            ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

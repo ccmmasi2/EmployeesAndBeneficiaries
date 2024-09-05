@@ -25,8 +25,7 @@ namespace Beneficiaries.Core.Migrations
                 name: "BENEFICIARIES",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<double>(type: "float", nullable: false),
                     PARTICIPATIONPERCENTAJE = table.Column<float>(type: "real", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -51,8 +50,7 @@ namespace Beneficiaries.Core.Migrations
                 name: "EMPLOYEES",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<double>(type: "float", nullable: false),
                     EMPLOYEENUMBER = table.Column<int>(type: "int", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

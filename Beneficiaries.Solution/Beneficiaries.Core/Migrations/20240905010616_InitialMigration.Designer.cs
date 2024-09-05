@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beneficiaries.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240904221903_InitialMigration")]
+    [Migration("20240905010616_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,8 @@ namespace Beneficiaries.Core.Migrations
 
             modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiaryDTO", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    b.Property<double>("ID")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2")
@@ -95,11 +92,8 @@ namespace Beneficiaries.Core.Migrations
 
             modelBuilder.Entity("Beneficiaries.Core.Models.EmployeeDTO", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    b.Property<double>("ID")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2")
