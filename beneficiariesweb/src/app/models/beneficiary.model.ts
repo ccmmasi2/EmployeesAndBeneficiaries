@@ -9,4 +9,5 @@ export class BeneficiaryDTO {
     countryId: number = 0;
     identification: number = 0;
     participationPercentaje: number = 0;
+    EmployeeId: number = 0;
 }

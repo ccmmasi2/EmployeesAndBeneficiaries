@@ -84,5 +84,14 @@ namespace Beneficiaries.API.Controllers
 
             return Item;
         }
+
+        [HttpGet("ObtAllXEmployeeId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(double id)
+        {
+            _logger.LogInformation("Get list x Employee Id");
+            var LItems = await _beneficiaryService.ObtAllXEmployeeId(id);
+            return Ok(LItems);
+        }
     }
 }

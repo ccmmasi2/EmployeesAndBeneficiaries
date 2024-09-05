@@ -216,6 +216,17 @@ namespace Beneficiaries.Core.Migrations
 		            INNER JOIN COUNTRIES c ON b.CountryId = c.ID
 		            WHERE b.EmployeeId = @EmployeeId;
 	            END; 
+            "); 
+
+            migrationBuilder.Sql(@"
+                CREATE PROCEDURE GetAllCountries
+                AS
+                BEGIN
+                    SELECT 
+                        b.ID, 
+                        b.NAME
+                    FROM COUNTRIES b;
+                END;
             ");
         }
 
@@ -230,6 +241,7 @@ namespace Beneficiaries.Core.Migrations
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS UpdateBeneficiary");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS UpdateEmployee");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetBeneficiariesByEmployeeId");
+            migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetAllCountries");
         }
 
     }
