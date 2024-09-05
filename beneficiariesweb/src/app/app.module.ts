@@ -8,19 +8,27 @@ import { MainpageComponent } from './layout/mainpage/mainpage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './modules/shared/shared.module';
+import { HomeComponent } from './modules/home/home/home.component';
+import { CatalogModule } from './modules/catalog/catalog.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     MainpageComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CatalogModule,
     MaterialModule,
-    SharedModule
+    HttpClientModule,
+    SharedModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
