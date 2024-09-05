@@ -193,8 +193,29 @@ namespace Beneficiaries.Core.Migrations
                         e.EMPLOYEENUMBER
                     FROM EMPLOYEES e
                     WHERE e.ID = @Id;
-                END
+                END;
+            ");
 
+            migrationBuilder.Sql(@"
+	            CREATE PROCEDURE GetBeneficiariesByEmployeeId
+		            @EmployeeId FLOAT
+	            AS
+	            BEGIN  
+		            SELECT 
+			            b.ID, 
+			            b.EmployeeId,
+			            b.NAME, 
+			            b.LASTNAME, 
+			            b.BIRTHDAY, 
+			            b.CURP, 
+			            b.SSN, 
+			            b.PHONENUMBER, 
+			            b.CountryId, 
+			            b.PARTICIPATIONPERCENTAJE 
+		            FROM BENEFICIARIES b
+		            INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+		            WHERE b.EmployeeId = @EmployeeId;
+	            END; 
             ");
         }
 
@@ -208,6 +229,7 @@ namespace Beneficiaries.Core.Migrations
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS InsertEmployee");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS UpdateBeneficiary");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS UpdateEmployee");
+            migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetBeneficiariesByEmployeeId");
         }
 
     }

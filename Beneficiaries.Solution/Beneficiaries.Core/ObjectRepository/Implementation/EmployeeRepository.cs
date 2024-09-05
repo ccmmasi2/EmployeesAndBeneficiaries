@@ -21,7 +21,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                 @Name = {0}, @LastName = {1}, @BirthDay = {2}, @CURP = {3}, 
                 @SSN = {4}, @PhoneNumber = {5}, @CountryId = {6}, @EmployeeNumber = {7}",
                 employee.Name, employee.LastName, employee.BirthDay, employee.CURP,
-                employee.SSN, employee.PhoneNUmber, employee.CountryId, employee.EmployeeNumber);
+                employee.SSN, employee.PhoneNumber, employee.CountryId, employee.EmployeeNumber);
 
             return newEmployeeId;
         }
@@ -34,7 +34,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                 @CURP = {4}, @SSN = {5}, @PhoneNumber = {6}, @CountryId = {7}, 
                 @EmployeeNumber = {8}",
                 employee.ID, employee.Name, employee.LastName, employee.BirthDay,
-                employee.CURP, employee.SSN, employee.PhoneNUmber,
+                employee.CURP, employee.SSN, employee.PhoneNumber,
                 employee.CountryId, employee.EmployeeNumber);
 
             return "Employee updated successfully";
@@ -46,7 +46,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Employee deleted successfully";
         }
 
-        public async Task<List<EmployeeDTO>> GetAll()
+        public async Task<List<EmployeeDTO>> ObtAll()
         {
             return await _context.Employees
                 .FromSqlRaw("EXEC GetAllEmployees")

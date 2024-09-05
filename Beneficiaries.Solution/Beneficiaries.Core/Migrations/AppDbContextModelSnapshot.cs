@@ -39,6 +39,9 @@ namespace Beneficiaries.Core.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
+                    b.Property<double>("EmployeeId")
+                        .HasColumnType("float");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -55,7 +58,7 @@ namespace Beneficiaries.Core.Migrations
                         .HasColumnType("real")
                         .HasColumnName("PARTICIPATIONPERCENTAJE");
 
-                    b.Property<string>("PhoneNUmber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("PHONENUMBER");
@@ -68,6 +71,8 @@ namespace Beneficiaries.Core.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("BENEFICIARIES");
                 });
@@ -121,7 +126,7 @@ namespace Beneficiaries.Core.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("NAME");
 
-                    b.Property<string>("PhoneNUmber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("PHONENUMBER");
@@ -146,7 +151,15 @@ namespace Beneficiaries.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Beneficiaries.Core.Models.EmployeeDTO", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Country");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Beneficiaries.Core.Models.EmployeeDTO", b =>

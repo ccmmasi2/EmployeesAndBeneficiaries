@@ -28,14 +28,19 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             return await _beneficiaryRepository.Delete(id);
         }
 
-        public async Task<List<BeneficiaryDTO>> GetAll()
+        public async Task<List<BeneficiaryDTO>> ObtAll()
         {
-            return await _beneficiaryRepository.GetAll();
+            return await _beneficiaryRepository.ObtAll();
         }
 
         public async Task<BeneficiaryDTO> ObtXId(double id)
         {
             return await _beneficiaryRepository.ObtXId(id);
+        }
+
+        public async Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(double employeeId)
+        {
+            return await _beneficiaryRepository.ObtAllXEmployeeId(employeeId);
         }
     }
 }

@@ -10,8 +10,10 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
 
         Task<string> Delete(double id);
 
-        Task<List<BeneficiaryDTO>> GetAll();
+        Task<List<BeneficiaryDTO>> ObtAll();
 
         Task<BeneficiaryDTO> ObtXId(double id);
+
+        Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(double employeeId);
     }
 }

@@ -24,7 +24,7 @@ namespace Beneficiaries.Core.Models
         public string SSN { get; set; }
 
         [Column("PHONENUMBER"), Required]
-        public string PhoneNUmber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [ForeignKey("COUNTRIES")]
         public int CountryId { get; set; }

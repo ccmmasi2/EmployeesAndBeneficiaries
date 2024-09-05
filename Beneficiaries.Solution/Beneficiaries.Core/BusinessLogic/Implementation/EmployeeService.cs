@@ -28,9 +28,9 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             return await _employeeRepository.Delete(id);
         }
 
-        public async Task<List<EmployeeDTO>> GetAll()
+        public async Task<List<EmployeeDTO>> ObtAll()
         {
-            return await _employeeRepository.GetAll();
+            return await _employeeRepository.ObtAll();
         }
 
         public async Task<EmployeeDTO> ObtXId(double id)

@@ -8,5 +8,10 @@ namespace Beneficiaries.Core.Models
     {
         [Column("PARTICIPATIONPERCENTAJE"), Required]
         public float ParticipationPercentaje { get; set; }
+
+        [ForeignKey("EMPLOYEES")]
+        public double EmployeeId { get; set; }
+
+        public virtual EmployeeDTO Employee { get; set; }
     }
 }

@@ -62,12 +62,12 @@ namespace Beneficiaries.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("ObtAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<object>>> GetAll()
+        public async Task<ActionResult<IEnumerable<object>>> ObtAll()
         {
             _logger.LogInformation("Get list");
-            var LItems = await _employeeService.GetAll();
+            var LItems = await _employeeService.ObtAll();
             return Ok(LItems);
         }
 

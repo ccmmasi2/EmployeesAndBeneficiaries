@@ -10,7 +10,7 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
 
         Task<string> Delete(double id);
 
-        Task<List<EmployeeDTO>> GetAll();
+        Task<List<EmployeeDTO>> ObtAll();
 
         Task<EmployeeDTO> ObtXId(double id);
     }
