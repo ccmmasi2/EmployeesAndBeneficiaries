@@ -6,36 +6,36 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
 {
     public class EmployeeService : IEmployeeService
     {
-        public IEmployeeRepository EmployeeRepository { get; set; } 
+        private IEmployeeRepository _employeeRepository { get; set; } 
 
         public EmployeeService(IEmployeeRepository employeeRepository)
         {
-            EmployeeRepository = employeeRepository;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<int> Add(EmployeeDTO employee)
         {
-            return await EmployeeRepository.Add(employee);
+            return await _employeeRepository.Add(employee);
         }
 
         public async Task<string> Update(EmployeeDTO employee)
         {
-            return await EmployeeRepository.Update(employee);
+            return await _employeeRepository.Update(employee);
         }
 
         public async Task<string> Delete(double id)
         {
-            return await EmployeeRepository.Delete(id);
+            return await _employeeRepository.Delete(id);
         }
 
         public async Task<List<EmployeeDTO>> GetAllEmployees()
         {
-            return await EmployeeRepository.GetAllEmployees();
+            return await _employeeRepository.GetAllEmployees();
         }
 
         public async Task<EmployeeDTO> ObtXId(double id)
         {
-            return await EmployeeRepository.ObtXId(id);
+            return await _employeeRepository.ObtXId(id);
         }
     }
 }

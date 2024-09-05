@@ -6,36 +6,36 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
 {
     public class BeneficiaryService : IBeneficiaryService
     {
-        public IBeneficiaryRepository BeneficiaryRepository { get; set; }
+        private IBeneficiaryRepository _beneficiaryRepository { get; set; }
 
         public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository)
         {
-            BeneficiaryRepository = beneficiaryRepository;
+            _beneficiaryRepository = beneficiaryRepository;
         }
 
         public async Task<int> Add(BeneficiaryDTO beneficiary)
         {
-            return await BeneficiaryRepository.Add(beneficiary);
+            return await _beneficiaryRepository.Add(beneficiary);
         }
 
         public async Task<string> Update(BeneficiaryDTO beneficiary)
         {
-            return await BeneficiaryRepository.Update(beneficiary);
+            return await _beneficiaryRepository.Update(beneficiary);
         }
 
         public async Task<string> Delete(double id)
         {
-            return await BeneficiaryRepository.Delete(id);
+            return await _beneficiaryRepository.Delete(id);
         }
 
         public async Task<List<BeneficiaryDTO>> GetAllBeneficiaries()
         {
-            return await BeneficiaryRepository.GetAllBeneficiaries();
+            return await _beneficiaryRepository.GetAllBeneficiaries();
         }
 
         public async Task<BeneficiaryDTO> ObtXId(double id)
         {
-            return await BeneficiaryRepository.ObtXId(id);
+            return await _beneficiaryRepository.ObtXId(id);
         }
     }
 }
