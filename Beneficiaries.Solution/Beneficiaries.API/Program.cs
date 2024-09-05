@@ -2,6 +2,8 @@ using Beneficiaries.Core.BusinessLogic.Implementation;
 using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Init;
+using Beneficiaries.Core.ObjectRepository.Implementation;
+using Beneficiaries.Core.ObjectRepository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -30,6 +32,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 builder.Services.AddScoped<IDBInitializer, DBInitializer>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IBeneficiaryService, BeneficiaryService>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IBeneficiaryRepository, BeneficiaryRepository>();
 
 var app = builder.Build();
 
