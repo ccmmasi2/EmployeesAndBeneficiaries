@@ -19,6 +19,7 @@ export class EmployeeListComponent implements OnInit {
     'name',
     'lastName',
     'phoneNumber',
+    'actions'
   ];
   dataSource: MatTableDataSource<EmployeeDTO>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
