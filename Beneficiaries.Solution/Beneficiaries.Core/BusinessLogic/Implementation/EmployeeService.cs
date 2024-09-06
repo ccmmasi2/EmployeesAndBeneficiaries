@@ -60,6 +60,7 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
         {
             try
             {
+                var result = await _employeeRepository.ObtAll(page, sizePage, sorting); ;
                 return await _employeeRepository.ObtAll(page, sizePage, sorting);
             }
             catch (Exception ex)

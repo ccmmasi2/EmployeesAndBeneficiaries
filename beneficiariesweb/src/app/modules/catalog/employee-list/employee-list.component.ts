@@ -26,6 +26,7 @@ export class EmployeeListComponent implements OnInit {
   pageIndex: number = 0; 
   pageSizeLength: number = 10;
   sorting: string = '';
+  pageSizeOptions = [10, 25, 50];
 
   constructor(
     private alertService: AlertService,
@@ -36,17 +37,15 @@ export class EmployeeListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.refreshEmployeeList(this.pageIndex + 1, this.pageSizeLength, this.sorting);
-    this.getList();
-    this.initializePagination(this.pageIndex, this.pageSizeLength, this.length);
+    this.refreshEmployeeList(this.pageIndex, this.pageSizeLength, this.sorting);
+    this.subscribeToData();
   }
  
-  getList(): void { 
+  subscribeToData(): void { 
     this.employeeSharedService.employees$.subscribe({
       next: data => {
         this.dataSource.data = data.data;
         this.length = data.totalRecords;
-        this.dataSource.paginator = this.paginator;
       },
       error: error => {
         this.alertService.showAlert(`Error loading employees: ${error}`, 'error');
@@ -55,50 +54,19 @@ export class EmployeeListComponent implements OnInit {
   }
 
   refreshEmployeeList(page: number, sizePage: number, sorting: string) {
-    this.employeeSharedService.getEmployees(page, sizePage, sorting);
-  }
+    this.employeeSharedService.getEmployees(page + 1, sizePage, sorting);
+  }  
 
   pageChanged(event: PageEvent) { 
-    this.pageSizeLength = event.pageSize;
-    this.refreshEmployeeList(this.pageIndex + 1, this.pageSizeLength, this.sorting);
-    this.getList();
-    this.initializePagination(event.pageIndex, this.pageSizeLength, this.length);
+    this.pageIndex = event.pageIndex;
+    this.pageSizeLength = event.pageSize; 
+    this.refreshEmployeeList(this.pageIndex, this.pageSizeLength, this.sorting);
   }
   
   onSortChange(event: Sort): void {
     if (event.active && event.direction) {
       this.sorting = `${event.active} ${event.direction}`;
-      this.refreshEmployeeList(this.pageIndex + 1, this.pageSizeLength, this.sorting);
-      this.getList();
+      this.refreshEmployeeList(this.pageIndex, this.pageSizeLength, this.sorting);
     }
-  }
-
-  initializePagination(pageObj: number, pageSizeObj: number, lengthObj: number){
-    this._MatPaginatorIntl.itemsPerPageLabel = 'Show';
-    this._MatPaginatorIntl.nextPageLabel = 'Next page';
-    this._MatPaginatorIntl.previousPageLabel = 'Last page';
-
-    this._MatPaginatorIntl.getRangeLabel = (
-      page: number = pageObj,
-      pageSize: number = pageSizeObj,
-      length: number = lengthObj
-    ) => {
-      if (length === 0 || pageSize === 0) {
-        return '';
-      } 
-
-      const startIndex = page * pageSize;
-      const endIndex = Math.min(startIndex + pageSize, length);
-
-      let countPages = Math.ceil(length / pageSizeObj);
-      const spaces = String.fromCharCode(160).repeat(30); 
-
-      return `${startIndex + 1} - ${endIndex} of ${length} entries ${spaces} Pag ${pageObj + 1} / ${countPages}`;
-    }; 
-  }
-
-  columnMapping: { [key: string]: string } = {
-    'Id': 'id',
-    'Name': 'name',
-  };
+  } 
 }

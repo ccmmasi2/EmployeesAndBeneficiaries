@@ -44,6 +44,20 @@
             </tr>
           </table>
         </div>
+
+        <div class="contain-paginate" *ngIf="dataSource?.data?.length !== 0">
+          <mat-paginator
+          #paginator
+          class=""
+          [length]="length"
+          [pageSize]="pageSizeLength"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="pageIndex"
+          (page)="pageChanged($event)"
+          aria-label="Select page"
+          >
+          </mat-paginator>
+        </div>
       </div>
     </div>
   </div>
