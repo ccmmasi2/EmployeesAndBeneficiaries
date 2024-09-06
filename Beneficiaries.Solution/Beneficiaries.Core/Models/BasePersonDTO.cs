@@ -17,13 +17,13 @@ namespace Beneficiaries.Core.Models
         [Column("BIRTHDAY"), Required]
         public DateTime BirthDay { get; set; }
 
-        [Column("CURP"), Required]
+        [Column("CURP"), MaxLength(10), Required]
         public string CURP { get; set; }
 
-        [Column("SSN"), Required]
+        [Column("SSN"), MaxLength(10), Required]
         public string SSN { get; set; }
 
-        [Column("PHONENUMBER"), Required]
+        [Column("PHONENUMBER"), MaxLength(10), Required]
         public string PhoneNumber { get; set; }
 
         [ForeignKey("COUNTRIES")]

@@ -86,7 +86,7 @@
 								id="curp" 
 								name="curp" 
 								[(ngModel)]="curp"
-								maxlength="50"
+								maxlength="10"
 								required
 								#curpField="ngModel"
 								[ngClass]="{ 'inputText': true, 'ng-invalid': curpField.invalid && (curpField.dirty || curpField.touched) }">
@@ -99,7 +99,7 @@
 								id="ssn" 
 								name="ssn" 
 								[(ngModel)]="ssn"
-								maxlength="50"
+								maxlength="10"
 								required
 								#ssnField="ngModel"
 								[ngClass]="{ 'inputText': true, 'ng-invalid': ssnField.invalid && (ssnField.dirty || ssnField.touched) }">
@@ -112,7 +112,7 @@
 								id="phoneNumber" 
 								name="phoneNumber" 
 								[(ngModel)]="phoneNumber"
-								maxlength="50">
+								maxlength="10">
 							</div> 
 							
 						</form>
