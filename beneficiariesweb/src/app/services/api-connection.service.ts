@@ -47,12 +47,13 @@ export class ApiConnectionService {
     );
   }  
 
-  createEmployee(employeRequest: EmployeeDTO): Observable<any> {
+  createEmployee(employeRequest: EmployeeDTO): Observable<EmployeeDTO> {
     let url = `${this.baseUrl}/api/Employee/Add`;
-    return this.http
-      .post<any>(url, employeRequest)
-      .pipe(
-        map((Response) => Response.data)
+    return this.http.post<EmployeeDTO>(url, employeRequest).pipe(
+        catchError((error: any) => {
+          console.error('Error creating employee:', error);
+          throw error;  
+        })
       )
   }
 }

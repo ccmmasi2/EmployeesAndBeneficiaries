@@ -4,6 +4,7 @@ import { CountryDTO } from '@app/models/country.model';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
+import { EmployeeSharedService } from '@app/services/employee-shared.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -30,6 +31,7 @@ export class EmployeeFormComponent implements OnInit {
   constructor(
     public apiConnectionService: ApiConnectionService,
     private alertService: AlertService,
+    public employeeSharedService: EmployeeSharedService
   ) {
   }
 
@@ -80,29 +82,42 @@ export class EmployeeFormComponent implements OnInit {
         return;
       }
       else {
-        const employeeRequest: EmployeeDTO = {
-          id: 0,
-          countryId: this.selectCountryId, 
-          employeeNumber: this.employeeNumber,
-          name: this.name,
-          lastName: this.lastName, 
-          birthDay: this.birthDay,
-          curp: this.curp,
-          ssn: this.ssn,
-          phoneNumber: this.phoneNumber 
-        }
+        const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
   
-        this.apiConnectionService.createEmployee(employeeRequest).subscribe(
-          (response) => {
-            const message = `Employee created successfully`
-            this.alertService.showAlert(message, 'success'); 
+        this.employeeSharedService.addEmployee(employeeRequest).subscribe({
+          next: () => {
+            const message = 'Employee created successfully';
+            this.alertService.showAlert(message, 'success');
+            this.refreshEmployeeList();
           },
-          (error) => {
-            const message = `An error occurred while creating the employee: "${error}"`
-            this.alertService.showAlert(message, 'error'); 
+          error: (error) => {
+            const message = `An error occurred while creating the employee: ${error.message || error}`;
+            this.alertService.showAlert(message, 'error');
           }
-        );
+        });
       } 
-    } 
+    }  else {
+      this.alertService.showAlert('Please fill in all required fields.', 'error');
+    }
+  }
+  
+  refreshEmployeeList() {
+    this.employeeSharedService.getEmployees();
+  }
+
+  private prepareEmployeeDTO(): EmployeeDTO {
+    const employeeRequest: EmployeeDTO = {
+      id: 0,
+      countryId: this.selectCountryId, 
+      employeeNumber: this.employeeNumber,
+      name: this.name,
+      lastName: this.lastName, 
+      birthDay: this.birthDay,
+      curp: this.curp,
+      ssn: this.ssn,
+      phoneNumber: this.phoneNumber 
+    }
+
+    return employeeRequest;
   }
 }

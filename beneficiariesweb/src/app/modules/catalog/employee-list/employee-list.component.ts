@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { EmployeeDTO } from '@app/models/employee.model';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
+import { EmployeeSharedService } from '@app/services/employee-shared.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -8,7 +10,6 @@ import { ApiConnectionService } from '@app/services/api-connection.service';
 })
 
 export class EmployeeListComponent implements OnInit {
-
   displayedColumns: string[] = [
     'id',
     'employeeNumber',
@@ -17,26 +18,31 @@ export class EmployeeListComponent implements OnInit {
     'phoneNumber',
   ];
 
-  dataSource: any;
+  dataSource: EmployeeDTO[] = [];
 
   constructor(
-    public apiConnectionService: ApiConnectionService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    public employeeSharedService: EmployeeSharedService
   ) { }
 
   ngOnInit(): void {
     this.getList();
   }
  
-  getList(): void {
-    this.apiConnectionService.getEmployees().subscribe((data) => {
-      if (data) {
-        this.dataSource = data;
+  getList(): void { 
+    this.employeeSharedService.employees$.subscribe(
+      employees => {
+        this.dataSource = employees;
+      },
+      error => {
+        this.alertService.showAlert(`Error loading employees: ${error}`, 'error');
       }
-    },
-    (error) => {
-      const message = `Error getting data from the API "${error}"`
-      this.alertService.showAlert(message, 'error'); 
-    });
+    );
+
+    this.refreshEmployeeList();
+  }
+
+  refreshEmployeeList() {
+    this.employeeSharedService.getEmployees();
   }
 }
