@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { AlertService } from '@app/services/alert-service.service';
@@ -64,9 +65,9 @@ export class EmployeeListComponent implements OnInit {
     this.initializePagination(event.pageIndex, this.pageSizeLength, this.length);
   }
   
-  onSortChange(event: any) {
+  onSortChange(event: Sort): void {
     if (event.active && event.direction) {
-      this.sorting = this.columnMapping[event.active] || event.active;
+      this.sorting = `${event.active} ${event.direction}`;
       this.refreshEmployeeList(this.pageIndex + 1, this.pageSizeLength, this.sorting);
       this.getList();
     }

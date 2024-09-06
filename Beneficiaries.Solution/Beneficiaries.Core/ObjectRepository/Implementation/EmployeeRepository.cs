@@ -50,7 +50,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
         public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
             var employees = new List<EmployeeDTO>();
-            var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting={sorting}";
+            var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting='{sorting}'";
 
             var result = _context.Employees.FromSqlRaw(query).AsNoTracking();
 
