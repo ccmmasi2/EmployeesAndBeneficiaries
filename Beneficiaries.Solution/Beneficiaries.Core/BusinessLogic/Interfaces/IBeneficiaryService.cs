@@ -10,10 +10,10 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
 
         Task<string> Delete(Int64 id);
 
-        Task<List<BeneficiaryDTO>> ObtAll();
+        Task<List<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id");
 
         Task<BeneficiaryDTO> ObtXId(Int64 id);
 
-        Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId);
+        Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id");
     }
 }

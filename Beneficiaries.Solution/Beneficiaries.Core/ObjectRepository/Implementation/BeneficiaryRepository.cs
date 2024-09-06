@@ -1,6 +1,7 @@
 ﻿using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Models;
 using Beneficiaries.Core.ObjectRepository.Interface;
+using Beneficiaries.Core.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
@@ -46,12 +47,19 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Beneficiary deleted successfully";
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAll()
+        public async Task<PagedList<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
-            return await _context.Beneficiaries
-                .FromSqlRaw("EXEC GetAllBeneficiaries")
-                .ToListAsync();
-        }
+            var beneficiaries = new List<BeneficiaryDTO>();
+            var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting='{sorting}'";
+
+            var result = _context.Beneficiaries.FromSqlRaw(query).AsNoTracking();
+
+            beneficiaries = await result.ToListAsync();
+
+            var totalRecords = await _context.Beneficiaries.CountAsync();
+
+            return new PagedList<BeneficiaryDTO>(beneficiaries, totalRecords, page, sizePage);
+        } 
 
         public async Task<BeneficiaryDTO> ObtXId(Int64 id)
         {
@@ -62,11 +70,18 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return beneficiary;
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId)
+        public async Task<PagedList<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
         {
-            return await _context.Beneficiaries
-                .FromSqlRaw("EXEC GetBeneficiaryByEmployeeId @EmployeeId = {0}", employeeId)
-                .ToListAsync();
+            var beneficiaries = new List<BeneficiaryDTO>();
+            var query = $"EXEC GetBeneficiaryByEmployeeId @EmployeeId={employeeId}, @page={page}, @sizePage={sizePage}, @sorting='{sorting}'";
+
+            var result = _context.Beneficiaries.FromSqlRaw(query).AsNoTracking();
+
+            beneficiaries = await result.ToListAsync();
+
+            var totalRecords = await _context.Beneficiaries.CountAsync();
+
+            return new PagedList<BeneficiaryDTO>(beneficiaries, totalRecords, page, sizePage);
         }
     }
 }

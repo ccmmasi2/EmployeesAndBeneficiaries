@@ -1,6 +1,7 @@
 ﻿using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Beneficiaries.API.Controllers
 {
@@ -64,10 +65,10 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("ObtAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<object>>> ObtAll()
+        public async Task<ActionResult<IEnumerable<object>>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list");
-            var LItems = await _beneficiaryService.ObtAll();
+            var LItems = await _beneficiaryService.ObtAll(page, sizePage, sorting);
             return Ok(LItems);
         }
 
@@ -87,10 +88,10 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("ObtAllXEmployeeId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(Int64 employeeId)
+        public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list x Employee Id");
-            var LItems = await _beneficiaryService.ObtAllXEmployeeId(employeeId);
+            var LItems = await _beneficiaryService.ObtAllXEmployeeId(employeeId, page, sizePage, sorting);
             return Ok(LItems);
         }
     }

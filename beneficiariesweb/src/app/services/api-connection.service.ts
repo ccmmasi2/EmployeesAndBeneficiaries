@@ -30,11 +30,31 @@ export class ApiConnectionService {
     sizePage: number,
     sorting: string
   ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: EmployeeDTO[] }> {
-    let url = `${this.baseUrl}/api/Employee/ObtAll?page=${page}&sizePage=${sizePage}`;
+    const url = `${this.baseUrl}/api/Employee/ObtAll?page=${page}&sizePage=${sizePage}&sorting=${sorting}`;
    
-    if(sorting) {
-      url += `&sorting=${sorting}`;
-    }
+    return this.http.get<any>(url).pipe(
+      map((response: any) => {
+        return {
+          currentPage: response.page,
+          sizePage: response.pageSize,
+          sorting: response.sorting,
+          totalRecords: response.totalCount,
+          data: response.data
+        };
+      }),
+      catchError((error: any) => {
+        console.error('Error getting all employees:', error);
+        return throwError(() => new Error('Failed to load employees'));
+      })
+    );
+  } 
+
+  getBeneficiaries(
+    page: number,
+    sizePage: number,
+    sorting: string
+  ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: BeneficiaryDTO[] }> {
+    const url = `${this.baseUrl}/api/Beneficiary/ObtAll?page=${page}&sizePage=${sizePage}&sorting=${sorting}`;
 
     return this.http.get<any>(url).pipe(
       map((response: any) => {
@@ -47,8 +67,8 @@ export class ApiConnectionService {
         };
       }),
       catchError((error: any) => {
-        console.error('Error getting all Employees:', error);
-        return throwError(() => new Error('Failed to load employees'));
+        console.error('Error getting all beneficiaries:', error);
+        return throwError(() => new Error('Failed to load beneficiaries'));
       })
     );
   } 
@@ -59,11 +79,7 @@ export class ApiConnectionService {
     sizePage: number,
     sorting: string
   ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: BeneficiaryDTO[] }> {
-    let url = `${this.baseUrl}/api/Beneficiary/ObtAllXEmployeeId?employeeId=${employeeId}&page=${page}&sizePage=${sizePage}`;
-    
-    if(sorting) {
-      url += `&sorting=${sorting}`;
-    }
+    const url = `${this.baseUrl}/api/Beneficiary/ObtAllXEmployeeId?employeeId=${employeeId}&page=${page}&sizePage=${sizePage}sorting=${sorting}`;
 
     return this.http.get<any>(url).pipe(
       map((response: any) => {
@@ -76,8 +92,8 @@ export class ApiConnectionService {
         };
       }),
       catchError((error: any) => {
-        console.error('Error getting all Beneficiaries by Employee Id:', error);
-        return [];
+        console.error('Error getting all beneficiaries:', error);
+        return throwError(() => new Error('Failed to load beneficiaries'));
       })
     );
   }  

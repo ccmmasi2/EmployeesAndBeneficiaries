@@ -55,11 +55,11 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAll()
+        public async Task<List<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
         {
             try
             {
-                return await _beneficiaryRepository.ObtAll();
+                return await _beneficiaryRepository.ObtAll(page, sizePage, sorting);
             }
             catch (Exception ex)
             {
@@ -81,11 +81,11 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId)
+        public async Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
         {
             try
             {
-                return await _beneficiaryRepository.ObtAllXEmployeeId(employeeId);
+                return await _beneficiaryRepository.ObtAllXEmployeeId(employeeId, page, sizePage, sorting);
             }
             catch (Exception ex)
             {

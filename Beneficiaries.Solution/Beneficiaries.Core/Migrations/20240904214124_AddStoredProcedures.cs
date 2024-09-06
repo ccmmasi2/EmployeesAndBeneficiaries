@@ -10,21 +10,32 @@ namespace Beneficiaries.Core.Migrations
         {
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE GetAllBeneficiaries
+                    @Page INT,
+                    @SizePage INT,
+                    @Sorting NVARCHAR(50)
                 AS
                 BEGIN
-                    SELECT 
-                        b.ID, 
-                        b.NAME, 
-                        b.LASTNAME, 
-                        b.BIRTHDAY, 
-                        b.CURP, 
-                        b.SSN, 
-                        b.PHONENUMBER, 
-                        b.CountryId, 
-                        b.PARTICIPATIONPERCENTAJE 
-                    FROM BENEFICIARIES b
-                    INNER JOIN COUNTRIES c ON b.CountryId = c.ID
-                    ORDER BY NAME;
+                    DECLARE @Skip INT = (@Page - 1) * @SizePage;
+                    DECLARE @Sql NVARCHAR(MAX);
+
+                    SET @Sql = '
+                        SELECT 
+                            b.ID, 
+                            b.NAME, 
+                            b.LASTNAME, 
+                            b.BIRTHDAY, 
+                            b.CURP, 
+                            b.SSN, 
+                            b.PHONENUMBER, 
+                            b.CountryId, 
+                            b.PARTICIPATIONPERCENTAJE 
+                        FROM BENEFICIARIES b
+                        INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+                        ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
+                        OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
+                        FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
+
+                    EXEC sp_executesql @Sql;
                 END;
             ");
 
@@ -211,24 +222,35 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
 	            CREATE PROCEDURE GetBeneficiariesByEmployeeId
-		            @EmployeeId FLOAT
+		            @EmployeeId FLOAT,
+                    @Page INT,
+                    @SizePage INT,
+                    @Sorting NVARCHAR(50)
 	            AS
 	            BEGIN  
-		            SELECT 
-			            b.ID, 
-			            b.EmployeeId,
-			            b.NAME, 
-			            b.LASTNAME, 
-			            b.BIRTHDAY, 
-			            b.CURP, 
-			            b.SSN, 
-			            b.PHONENUMBER, 
-			            b.CountryId, 
-			            b.PARTICIPATIONPERCENTAJE 
-		            FROM BENEFICIARIES b
-		            INNER JOIN COUNTRIES c ON b.CountryId = c.ID
-		            WHERE b.EmployeeId = @EmployeeId
-                    ORDER BY NAME;
+                    DECLARE @Skip INT = (@Page - 1) * @SizePage;
+                    DECLARE @Sql NVARCHAR(MAX);
+
+                    SET @Sql = '
+		                SELECT 
+			                b.ID, 
+			                b.EmployeeId,
+			                b.NAME, 
+			                b.LASTNAME, 
+			                b.BIRTHDAY, 
+			                b.CURP, 
+			                b.SSN, 
+			                b.PHONENUMBER, 
+			                b.CountryId, 
+			                b.PARTICIPATIONPERCENTAJE 
+		                FROM BENEFICIARIES b
+		                INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+		                WHERE b.EmployeeId = @EmployeeId
+                        ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
+                        OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
+                        FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
+
+                    EXEC sp_executesql @Sql;
 	            END; 
             "); 
 
