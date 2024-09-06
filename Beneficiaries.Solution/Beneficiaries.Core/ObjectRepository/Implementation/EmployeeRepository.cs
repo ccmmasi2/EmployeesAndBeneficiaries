@@ -1,6 +1,7 @@
 ﻿using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Models;
 using Beneficiaries.Core.ObjectRepository.Interface;
+using Beneficiaries.Core.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
@@ -46,11 +47,18 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Employee deleted successfully";
         }
 
-        public async Task<List<EmployeeDTO>> ObtAll()
+        public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
-            return await _context.Employees
-                .FromSqlRaw("EXEC GetAllEmployees")
-                .ToListAsync();
+            var employees = new List<EmployeeDTO>();
+            var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting={sorting}";
+
+            var result = _context.Employees.FromSqlRaw(query).AsNoTracking();
+
+            employees = await result.ToListAsync();
+
+            var totalRecords = await _context.Employees.CountAsync();
+
+            return new PagedList<EmployeeDTO>(employees, totalRecords, page, sizePage);
         }
 
         public async Task<EmployeeDTO> ObtXId(Int64 id)

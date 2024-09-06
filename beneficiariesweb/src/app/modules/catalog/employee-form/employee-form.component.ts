@@ -76,7 +76,7 @@ export class EmployeeFormComponent implements OnInit {
   submitForm(): void {
     if (this.employeeForm.valid) {
       if (!this.validateAge(this.birthDay)) {
-        const message = `The Emplyee must be over than 18 years old`
+        const message = `The Employee must be over than 18 years old`
         this.alertService.showAlert(message, 'error'); 
         this.isCollapsed = true;
         return;

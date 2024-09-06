@@ -1,4 +1,5 @@
 ﻿using Beneficiaries.Core.Models;
+using Beneficiaries.Core.Utilities;
 
 namespace Beneficiaries.Core.ObjectRepository.Interface
 {
@@ -10,7 +11,7 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
 
         Task<string> Delete(Int64 id);
 
-        Task<List<EmployeeDTO>> ObtAll();
+        Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "");
 
         Task<EmployeeDTO> ObtXId(Int64 id);
     }

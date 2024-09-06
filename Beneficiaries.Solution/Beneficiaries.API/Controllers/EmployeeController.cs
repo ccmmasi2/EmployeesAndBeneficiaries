@@ -64,10 +64,10 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("ObtAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<object>>> ObtAll()
+        public async Task<ActionResult<IEnumerable<object>>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list");
-            var LItems = await _employeeService.ObtAll();
+            var LItems = await _employeeService.ObtAll(page, sizePage, sorting);
             return Ok(LItems);
         }
 

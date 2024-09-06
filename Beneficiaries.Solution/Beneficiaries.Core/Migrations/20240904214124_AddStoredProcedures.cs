@@ -30,21 +30,32 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE GetAllEmployees
+                    @Page INT,
+                    @SizePage INT,
+                    @Sorting NVARCHAR(50) 
                 AS
                 BEGIN
-                    SELECT 
-                        e.ID, 
-                        e.NAME, 
-                        e.LASTNAME, 
-                        e.BIRTHDAY, 
-                        e.CURP, 
-                        e.SSN, 
-                        e.PHONENUMBER, 
-                        e.CountryId, 
-                        e.EMPLOYEENUMBER 
-                    FROM EMPLOYEES e
-                    INNER JOIN COUNTRIES c ON e.CountryId = c.ID
-                    ORDER BY NAME;
+                    DECLARE @Skip INT = (@Page - 1) * @SizePage;
+                    DECLARE @Sql NVARCHAR(MAX);
+
+                    SET @Sql = '
+                        SELECT
+                            e.ID, 
+                            e.NAME, 
+                            e.LASTNAME, 
+                            e.BIRTHDAY, 
+                            e.CURP, 
+                            e.SSN, 
+                            e.PHONENUMBER, 
+                            e.CountryId, 
+                            e.EMPLOYEENUMBER
+                        FROM EMPLOYEES e
+                        INNER JOIN COUNTRIES c ON e.CountryId = c.ID
+                        ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
+                        OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
+                        FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
+        
+                    EXEC sp_executesql @Sql;
                 END;
             ");
 
