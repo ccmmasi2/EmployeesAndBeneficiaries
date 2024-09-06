@@ -7,16 +7,16 @@ import { AlertService } from './services/alert-service.service';
 })
 
 export class AppComponent {
+
   title = 'order web angular';
+  alertMessage: string = '';
+  alertType: string = '';
 
   constructor(private alertService: AlertService) {
     this.alertService.alert$.subscribe(({ message, type }) => {
       this.showAlert(message, type);
     });
-  }
-
-  alertMessage: string = '';
-  alertType: string = '';
+  } 
 
   showAlert(message: string, type: string) {
     this.alertMessage = message;
@@ -29,5 +29,5 @@ export class AppComponent {
   closeAlert() {
     this.alertMessage = '';
     this.alertType = '';
-  }
+  } 
 }

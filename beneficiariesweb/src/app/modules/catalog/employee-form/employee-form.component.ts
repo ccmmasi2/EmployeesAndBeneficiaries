@@ -19,7 +19,6 @@ export class EmployeeFormComponent implements OnInit {
 
   selectCountryId: number = 0;
   countryIdOptions: CountryDTO[] = [];
-
   name: string = '';
   lastName: string = '';
   birthDay!: Date;
@@ -40,7 +39,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   toggleCollapse() {
-    this.isCollapsed = !this.isCollapsed;  // Alterna entre contraído y expandido
+    this.isCollapsed = !this.isCollapsed;   
   }
 
   loadDataOptions(): void {
@@ -79,6 +78,7 @@ export class EmployeeFormComponent implements OnInit {
       if (!this.validateAge(this.birthDay)) {
         const message = `The Emplyee must be over than 18 years old`
         this.alertService.showAlert(message, 'error'); 
+        this.isCollapsed = true;
         return;
       }
       else {
@@ -88,16 +88,19 @@ export class EmployeeFormComponent implements OnInit {
           next: () => {
             const message = 'Employee created successfully';
             this.alertService.showAlert(message, 'success');
+            this.resetForm();
             this.refreshEmployeeList();
           },
           error: (error) => {
             const message = `An error occurred while creating the employee: ${error.message || error}`;
             this.alertService.showAlert(message, 'error');
+            this.isCollapsed = true;
           }
         });
       } 
     }  else {
       this.alertService.showAlert('Please fill in all required fields.', 'error');
+      this.isCollapsed = true;
     }
   }
   
@@ -119,5 +122,19 @@ export class EmployeeFormComponent implements OnInit {
     }
 
     return employeeRequest;
+  }
+
+  private resetForm(): void {
+    this.selectCountryId = 0;
+    this.name = '';
+    this.lastName = '';
+    this.birthDay = null!;
+    this.phoneNumber = '';
+    this.curp = '';
+    this.ssn = '';
+    this.employeeNumber = 0;
+    this.isCollapsed = true;
+
+    this.employeeForm.resetForm();
   }
 }
