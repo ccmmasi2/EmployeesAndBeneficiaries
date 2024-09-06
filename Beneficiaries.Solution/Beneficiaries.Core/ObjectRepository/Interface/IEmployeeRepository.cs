@@ -8,10 +8,10 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
 
         Task<string> Update(EmployeeDTO employee);
 
-        Task<string> Delete(double id);
+        Task<string> Delete(Int64 id);
 
         Task<List<EmployeeDTO>> ObtAll();
 
-        Task<EmployeeDTO> ObtXId(double id);
+        Task<EmployeeDTO> ObtXId(Int64 id);
     }
 }

@@ -10,7 +10,7 @@ namespace Beneficiaries.Core.Models
         public float ParticipationPercentaje { get; set; }
 
         [ForeignKey("EMPLOYEES")]
-        public double EmployeeId { get; set; }
+        public Int64 EmployeeId { get; set; }
 
         public virtual EmployeeDTO Employee { get; set; }
     }

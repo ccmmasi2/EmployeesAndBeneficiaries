@@ -40,7 +40,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Employee updated successfully";
         }
 
-        public async Task<string> Delete(double id)
+        public async Task<string> Delete(Int64 id)
         {
             await _context.Database.ExecuteSqlRawAsync("EXEC DeleteEmployee @Id = {0}", id);
             return "Employee deleted successfully";
@@ -53,7 +53,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                 .ToListAsync();
         }
 
-        public async Task<EmployeeDTO> ObtXId(double id)
+        public async Task<EmployeeDTO> ObtXId(Int64 id)
         {
             var employee = await _context.Employees
             .FromSqlRaw("EXEC GetEmployeeById @Id = {0}", id)

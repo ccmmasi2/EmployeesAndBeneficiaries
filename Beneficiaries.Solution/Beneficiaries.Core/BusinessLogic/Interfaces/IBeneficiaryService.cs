@@ -8,12 +8,12 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
 
         Task<string> Update(BeneficiaryDTO beneficiary);
 
-        Task<string> Delete(double id);
+        Task<string> Delete(Int64 id);
 
         Task<List<BeneficiaryDTO>> ObtAll();
 
-        Task<BeneficiaryDTO> ObtXId(double id);
+        Task<BeneficiaryDTO> ObtXId(Int64 id);
 
-        Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(double employeeId);
+        Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId);
     }
 }

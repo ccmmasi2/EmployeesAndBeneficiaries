@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Beneficiaries.Core.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,14 +25,15 @@ namespace Beneficiaries.Core.Migrations
                 name: "EMPLOYEES",
                 columns: table => new
                 {
-                    ID = table.Column<double>(type: "float", nullable: false),
-                    EMPLOYEENUMBER = table.Column<double>(type: "float", nullable: false),
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EMPLOYEENUMBER = table.Column<long>(type: "bigint", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BIRTHDAY = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CURP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SSN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PHONENUMBER = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CURP = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    SSN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PHONENUMBER = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -43,22 +44,23 @@ namespace Beneficiaries.Core.Migrations
                         column: x => x.CountryId,
                         principalTable: "COUNTRIES",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BENEFICIARIES",
                 columns: table => new
                 {
-                    ID = table.Column<double>(type: "float", nullable: false),
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PARTICIPATIONPERCENTAJE = table.Column<float>(type: "real", nullable: false),
-                    EmployeeId = table.Column<double>(type: "float", nullable: false),
+                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BIRTHDAY = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CURP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SSN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PHONENUMBER = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CURP = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    SSN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PHONENUMBER = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -69,7 +71,7 @@ namespace Beneficiaries.Core.Migrations
                         column: x => x.CountryId,
                         principalTable: "COUNTRIES",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BENEFICIARIES_EMPLOYEES_EmployeeId",
                         column: x => x.EmployeeId,

@@ -50,7 +50,7 @@ namespace Beneficiaries.API.Controllers
         [HttpDelete("Delete/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> Delete(double id)
+        public async Task<ActionResult<string>> Delete(Int64 id)
         {
             if (id == 0)
             {
@@ -73,7 +73,7 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public object GetById(double id)
+        public object GetById(Int64 id)
         {
             if (id == 0)
             {

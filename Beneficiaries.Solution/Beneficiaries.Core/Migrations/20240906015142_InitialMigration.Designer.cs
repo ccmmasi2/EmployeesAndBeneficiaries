@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beneficiaries.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240905172031_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240906015142_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,11 @@ namespace Beneficiaries.Core.Migrations
 
             modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiaryDTO", b =>
                 {
-                    b.Property<double>("ID")
-                        .HasColumnType("float");
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"), 1L, 1);
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2")
@@ -35,14 +38,15 @@ namespace Beneficiaries.Core.Migrations
 
                     b.Property<string>("CURP")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("CURP");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<double>("EmployeeId")
-                        .HasColumnType("float");
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -62,12 +66,14 @@ namespace Beneficiaries.Core.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("PHONENUMBER");
 
                     b.Property<string>("SSN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("SSN");
 
                     b.HasKey("ID");
@@ -76,7 +82,7 @@ namespace Beneficiaries.Core.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("BENEFICIARIES");
+                    b.ToTable("BENEFICIARIES", (string)null);
                 });
 
             modelBuilder.Entity("Beneficiaries.Core.Models.CountryDTO", b =>
@@ -92,13 +98,16 @@ namespace Beneficiaries.Core.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("COUNTRIES");
+                    b.ToTable("COUNTRIES", (string)null);
                 });
 
             modelBuilder.Entity("Beneficiaries.Core.Models.EmployeeDTO", b =>
                 {
-                    b.Property<double>("ID")
-                        .HasColumnType("float");
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"), 1L, 1);
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2")
@@ -106,14 +115,15 @@ namespace Beneficiaries.Core.Migrations
 
                     b.Property<string>("CURP")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("CURP");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<double>("EmployeeNumber")
-                        .HasColumnType("float")
+                    b.Property<long>("EmployeeNumber")
+                        .HasColumnType("bigint")
                         .HasColumnName("EMPLOYEENUMBER");
 
                     b.Property<string>("LastName")
@@ -130,12 +140,14 @@ namespace Beneficiaries.Core.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("PHONENUMBER");
 
                     b.Property<string>("SSN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("SSN");
 
                     b.HasKey("ID");
@@ -145,7 +157,7 @@ namespace Beneficiaries.Core.Migrations
                     b.HasIndex("EmployeeNumber")
                         .IsUnique();
 
-                    b.ToTable("EMPLOYEES");
+                    b.ToTable("EMPLOYEES", (string)null);
                 });
 
             modelBuilder.Entity("Beneficiaries.Core.Models.BeneficiaryDTO", b =>
@@ -153,7 +165,7 @@ namespace Beneficiaries.Core.Migrations
                     b.HasOne("Beneficiaries.Core.Models.CountryDTO", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Beneficiaries.Core.Models.EmployeeDTO", "Employee")
@@ -172,7 +184,7 @@ namespace Beneficiaries.Core.Migrations
                     b.HasOne("Beneficiaries.Core.Models.CountryDTO", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Country");

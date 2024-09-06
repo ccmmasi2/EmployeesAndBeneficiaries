@@ -1,4 +1,5 @@
-﻿using Beneficiaries.Core.Models;
+﻿using Beneficiaries.Core.Configuration;
+using Beneficiaries.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -18,15 +19,9 @@ namespace Beneficiaries.Core.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<EmployeeDTO>()
-                .HasIndex(e => e.EmployeeNumber)
-            .IsUnique();
-
-            builder.Entity<BeneficiaryDTO>()
-                .HasOne(b => b.Employee)
-                .WithMany()   
-                .HasForeignKey(b => b.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.ApplyConfiguration(new CountryConfiguration());
+            builder.ApplyConfiguration(new EmployeeConfiguration());
+            builder.ApplyConfiguration(new BeneficiaryConfiguration());
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

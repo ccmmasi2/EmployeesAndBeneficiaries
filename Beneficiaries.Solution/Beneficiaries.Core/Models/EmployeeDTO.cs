@@ -7,6 +7,6 @@ namespace Beneficiaries.Core.Models
     public class EmployeeDTO : BasePersonDTO
     {
         [Column("EMPLOYEENUMBER"), Required]
-        public double EmployeeNumber { get; set; }
+        public Int64 EmployeeNumber { get; set; }
     }
 }

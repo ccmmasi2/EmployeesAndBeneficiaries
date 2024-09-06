@@ -278,3 +278,16 @@ a:hover {
 .inputText.required:invalid {
   border-color: red;
 }
+
+#addEdit {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+#addEdit.collapsed {
+  max-height: 0;
+}
+
+#addEdit.expanded {
+  max-height: 1000px; /* Ajusta este valor según el tamaño del contenido */
+}

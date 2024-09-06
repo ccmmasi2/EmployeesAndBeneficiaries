@@ -4,7 +4,7 @@ import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { CountryDTO } from '@app/models/country.model';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { environment } from 'enviroment/enviroment';
-import { catchError, Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +46,13 @@ export class ApiConnectionService {
         })
     );
   }  
+
+  createEmployee(employeRequest: EmployeeDTO): Observable<any> {
+    let url = `${this.baseUrl}/api/Employee/Add`;
+    return this.http
+      .post<any>(url, employeRequest)
+      .pipe(
+        map((Response) => Response.data)
+      )
+  }
 }

@@ -23,7 +23,8 @@ namespace Beneficiaries.Core.Migrations
                         b.CountryId, 
                         b.PARTICIPATIONPERCENTAJE 
                     FROM BENEFICIARIES b
-                    INNER JOIN COUNTRIES c ON b.CountryId = c.ID;
+                    INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+                    ORDER BY NAME;
                 END;
             ");
 
@@ -42,7 +43,8 @@ namespace Beneficiaries.Core.Migrations
                         e.CountryId, 
                         e.EMPLOYEENUMBER 
                     FROM EMPLOYEES e
-                    INNER JOIN COUNTRIES c ON e.CountryId = c.ID;
+                    INNER JOIN COUNTRIES c ON e.CountryId = c.ID
+                    ORDER BY NAME;
                 END;
             ");
 
@@ -214,7 +216,8 @@ namespace Beneficiaries.Core.Migrations
 			            b.PARTICIPATIONPERCENTAJE 
 		            FROM BENEFICIARIES b
 		            INNER JOIN COUNTRIES c ON b.CountryId = c.ID
-		            WHERE b.EmployeeId = @EmployeeId;
+		            WHERE b.EmployeeId = @EmployeeId
+                    ORDER BY NAME;
 	            END; 
             "); 
 
@@ -225,7 +228,8 @@ namespace Beneficiaries.Core.Migrations
                     SELECT 
                         b.ID, 
                         b.NAME
-                    FROM COUNTRIES b;
+                    FROM COUNTRIES b
+                    ORDER BY NAME;
                 END;
             ");
         }
