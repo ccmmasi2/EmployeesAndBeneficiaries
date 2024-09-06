@@ -1,6 +1,7 @@
 ﻿using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Models;
 using Beneficiaries.Core.ObjectRepository.Interface;
+using Beneficiaries.Core.Utilities;
 using Microsoft.Extensions.Logging;
 
 namespace Beneficiaries.Core.BusinessLogic.Implementation
@@ -55,7 +56,7 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
+        public async Task<PagedList<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
         {
             try
             {
@@ -81,7 +82,7 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<List<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
+        public async Task<PagedList<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
         {
             try
             {
