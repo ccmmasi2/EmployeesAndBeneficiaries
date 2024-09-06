@@ -30,8 +30,12 @@ export class ApiConnectionService {
     sizePage: number,
     sorting: string
   ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: EmployeeDTO[] }> {
-    const url = `${this.baseUrl}/api/Employee/ObtAll?page=${page}&sizePage=${sizePage}&sorting=${sorting}`;
+    let url = `${this.baseUrl}/api/Employee/ObtAll?page=${page}&sizePage=${sizePage}`;
    
+    if(sorting) {
+      url += `&sorting=${sorting}`;
+    }
+
     return this.http.get<any>(url).pipe(
       map((response: any) => {
         return {
@@ -54,7 +58,11 @@ export class ApiConnectionService {
     sizePage: number,
     sorting: string
   ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: BeneficiaryDTO[] }> {
-    const url = `${this.baseUrl}/api/Beneficiary/ObtAll?page=${page}&sizePage=${sizePage}&sorting=${sorting}`;
+    let url = `${this.baseUrl}/api/Beneficiary/ObtAll?page=${page}&sizePage=${sizePage}`;
+
+    if(sorting) {
+      url += `&sorting=${sorting}`;
+    }
 
     return this.http.get<any>(url).pipe(
       map((response: any) => {
@@ -79,7 +87,11 @@ export class ApiConnectionService {
     sizePage: number,
     sorting: string
   ): Observable<{ totalRecords: number, currentPage: number, sizePage: number, sorting: number, data: BeneficiaryDTO[] }> {
-    const url = `${this.baseUrl}/api/Beneficiary/ObtAllXEmployeeId?employeeId=${employeeId}&page=${page}&sizePage=${sizePage}sorting=${sorting}`;
+    let url = `${this.baseUrl}/api/Beneficiary/ObtAllXEmployeeId?employeeId=${employeeId}&page=${page}&sizePage=${sizePage}`;
+   
+    if(sorting) {
+      url += `&sorting=${sorting}`;
+    }
 
     return this.http.get<any>(url).pipe(
       map((response: any) => {
