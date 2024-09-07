@@ -77,7 +77,7 @@ export class EmployeeFormComponent implements OnInit {
             this.refreshEmployeeList();
           },
           (error) => {
-            this.alertService.showAlert(`Error deleting employee: ${error.message || error}`, 'error');
+            this.alertService.showAlert(`Error eliminando el empleado: ${error.message || error}`, 'error');
           }
         );
       }
@@ -98,12 +98,12 @@ export class EmployeeFormComponent implements OnInit {
         this.countryIdOptions = info;
       }
       else {
-        const message = `Error loading countries`
+        const message = `Error cargando paises`
         this.alertService.showAlert(message, 'error'); 
       }
     },
     (error) => {
-      const message = `Error loading countries: "${error}"`
+      const message = `Error cargando paises: "${error}"`
       this.alertService.showAlert(message, 'error'); 
     })
   }  
@@ -126,7 +126,7 @@ export class EmployeeFormComponent implements OnInit {
   submitForm(): void {
     if (this.employeeForm.valid) {
       if (!this.validateAge(this.birthDay)) {
-        const message = `The Employee must be over than 18 years old`
+        const message = `El empleado debe tener al menos 18 años`
         this.alertService.showAlert(message, 'error'); 
         this.isCollapsed = true;
         return;
@@ -145,7 +145,7 @@ export class EmployeeFormComponent implements OnInit {
               this.refreshEmployeeList();
             },
             error: (error) => {
-              const message = `An error occurred while creating the employee: ${error.message || error}`;
+              const message = `Error al crear el empleado: ${error.message || error}`;
               this.alertService.showAlert(message, 'error');
               this.isCollapsed = false;
             }
@@ -156,14 +156,14 @@ export class EmployeeFormComponent implements OnInit {
   
           this.apiConnectionService.createEmployee(employeeRequest).subscribe({
             next: () => {
-              const message = 'Employee created successfully';
+              const message = 'Empleado creado';
               this.alertService.showAlert(message, 'success');
               this.resetForm();
               this.isCollapsed = true;
               this.refreshEmployeeList();
             },
             error: (error) => {
-              const message = `An error occurred while creating the employee: ${error.message || error}`;
+              const message = `Error al crear el empleado: ${error.message || error}`;
               this.alertService.showAlert(message, 'error');
               this.isCollapsed = true;
             }
@@ -171,7 +171,7 @@ export class EmployeeFormComponent implements OnInit {
         } 
       } 
     }  else {
-      this.alertService.showAlert('Please fill in all required fields.', 'error');
+      this.alertService.showAlert('Por favor llene los campos requeridos.', 'error');
       this.isCollapsed = true;
     }
   }

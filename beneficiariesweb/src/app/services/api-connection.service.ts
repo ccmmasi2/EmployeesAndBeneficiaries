@@ -19,7 +19,7 @@ export class ApiConnectionService {
     const url = `${this.baseUrl}/api/Country/ObtAll`;
     return this.http.get<CountryDTO[]>(url).pipe(
         catchError((error: any) => {
-          console.error('Error getting all countries:', error);
+          console.error('Error obteniendo paises:', error);
           return [];
         })
     );
@@ -47,8 +47,8 @@ export class ApiConnectionService {
         };
       }),
       catchError((error: any) => {
-        console.error('Error getting all employees:', error);
-        return throwError(() => new Error('Failed to load employees'));
+        console.error('Error obteniendo empleados:', error);
+        return throwError(() => new Error('Error obteniendo empleados'));
       })
     );
   } 
@@ -75,8 +75,8 @@ export class ApiConnectionService {
         };
       }),
       catchError((error: any) => {
-        console.error('Error getting all beneficiaries:', error);
-        return throwError(() => new Error('Failed to load beneficiaries'));
+        console.error('Error obteniendo beneficiarios:', error);
+        return throwError(() => new Error('Error obteniendo beneficiarios'));
       })
     );
   } 
@@ -104,8 +104,8 @@ export class ApiConnectionService {
         };
       }),
       catchError((error: any) => {
-        console.error('Error getting all beneficiaries:', error);
-        return throwError(() => new Error('Failed to load beneficiaries'));
+        console.error('Error obteniendo beneficiarios:', error);
+        return throwError(() => new Error('Error obteniendo beneficiarios'));
       })
     );
   }  
@@ -114,7 +114,7 @@ export class ApiConnectionService {
     const url = `${this.baseUrl}/api/Employee/Add`;
     return this.http.post<EmployeeDTO>(url, employeRequest).pipe(
         catchError((error: any) => {
-          console.error('Error creating employee:', error);
+          console.error('Error creando empleado:', error);
           throw error;  
         })
       )
@@ -149,8 +149,8 @@ export class ApiConnectionService {
     const url = `${this.baseUrl}/api/Employee/Delete/${id}`;
     return this.http.delete<string>(url, { responseType: 'text' as 'json' }).pipe(
         catchError((error: any) => {
-          console.error('Error deleting  employee:', error);
-          return throwError(() => new Error('Error deleting employee: ' + (error.message || error)));
+          console.error('Error eliminando empleado:', error);
+          return throwError(() => new Error('Error eliminando empleado: ' + (error.message || error)));
         })
       ) 
   } 
@@ -163,8 +163,8 @@ export class ApiConnectionService {
     return this.http.get<{result: EmployeeDTO}>(url).pipe(
       map(response => response.result), 
       catchError((error: any) => {
-        console.error('Error getting the employee:', error);
-        return throwError(() => new Error('Failed to load the employee'));
+        console.error('Error obteniendo empleado:', error);
+        return throwError(() => new Error('Error obteniendo empleado'));
       })
     );
   } 

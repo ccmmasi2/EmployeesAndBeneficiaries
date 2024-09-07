@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 
 export class ShowMessageComponent {
   @Input() message: string = '';
-  @Input() type: string = 'info'; // 'success', 'warning', 'error'
+  @Input() type: string = 'info';  
 
   closeAlert() {
     this.message = '';

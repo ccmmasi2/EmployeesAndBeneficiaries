@@ -26,7 +26,7 @@ namespace Beneficiaries.API.Controllers
             if (beneficiary == null)
             {
                 _logger.LogError("Beneficiary data must be provided!");
-                return BadRequest("Beneficiary data is null");
+                return BadRequest("No se enviaron datos");
             }
 
             var newBeneficiaryId = await _beneficiaryService.Add(beneficiary);
@@ -41,7 +41,7 @@ namespace Beneficiaries.API.Controllers
             if (beneficiary == null || beneficiary.ID == 0)
             {
                 _logger.LogError("Beneficiary data or ID must be provided!");
-                return BadRequest("Invalid beneficiary data or ID");
+                return BadRequest("No se enviaron datos");
             }
 
             var result = await _beneficiaryService.Update(beneficiary);
@@ -56,7 +56,7 @@ namespace Beneficiaries.API.Controllers
             if (id == 0)
             {
                 _logger.LogError("ID must be provided!");
-                return BadRequest("Invalid ID");
+                return BadRequest("ID invalido");
             }
 
             var result = await _beneficiaryService.Delete(id);

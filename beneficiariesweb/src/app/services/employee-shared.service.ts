@@ -29,7 +29,7 @@ export class EmployeeSharedService {
         totalRecords: response.totalRecords, 
         data: response.data
       }),
-      error: error => console.error('Error loading employees', error)
+      error: error => console.error('Error cargando empleados', error)
     });
   } 
 
@@ -39,7 +39,7 @@ export class EmployeeSharedService {
         totalRecords: response.totalRecords, 
         data: response.data
        }),
-      error: error => console.error('Error loading beneficiaries', error)
+      error: error => console.error('Error cargando beneficiarios', error)
     });
   } 
 
@@ -49,16 +49,7 @@ export class EmployeeSharedService {
           totalRecords: response.totalRecords,
           data: response.data 
         }),
-      error: error => console.error('Error loading beneficiaries', error)
+      error: error => console.error('Error cargando beneficiarios', error)
     });
-  } 
-
-  // addEmployee(employee: EmployeeDTO): Observable<EmployeeDTO>{
-  //   return this.apiService.createEmployee(employee).pipe(
-  //     catchError(error => {
-  //       console.error('Error adding employee', error);
-  //       return throwError(() => new Error('Failed to add employee'));
-  //     })
-  //   );
-  // }
+  }  
 }

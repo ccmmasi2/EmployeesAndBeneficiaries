@@ -2,7 +2,7 @@
 <div class="mat-app-backgroud basic-container">
 	<div class="contain-main">
 		<div class="contain-head">
-			<div class="contain-title button" (click)="toggleCollapse()">Click to watch or add employee</div> 
+			<div class="contain-title button" (click)="toggleCollapse()">Click para ver, añadir o modificar empleados</div> 
 		</div>
 		<div class="contain-body">
 			<div id="addEdit" [class.collapsed]="isCollapsed" [class.expanded]="!isCollapsed">
@@ -11,7 +11,7 @@
 						<form #employeeForm="ngForm">  
                 
 							<div class="form-group">
-								<label class="labelText" for="selectCountryId">Country:</label> 
+								<label class="labelText" for="selectCountryId">Nacionalidad:</label> 
 								<div class="select-container-intern">
 									<div class="select-container">
 									  <select id="selectCountryId" 
@@ -29,7 +29,7 @@
 							</div> 
 
 							<div class="form-group">
-								<label class="labelText" for="employeeNumber">Employee Number:</label>
+								<label class="labelText" for="employeeNumber">Número de empleado:</label>
 								<input class="inputText" 
 										type="number"
 										id="employeeNumber" 
@@ -42,7 +42,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="labelText" for="name">Name:</label>
+								<label class="labelText" for="name">Nombre:</label>
 								<input class="inputText" 
 								type="text"
 								id="name" 
@@ -55,7 +55,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="labelText" for="lastName">Last name:</label>
+								<label class="labelText" for="lastName">Apellido:</label>
 								<input class="inputText" 
 								type="text" 
 								id="lastName" 
@@ -68,7 +68,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="labelText" for="birthDay">Birthday:</label>
+								<label class="labelText" for="birthDay">Fecha de nacimiento:</label>
 								<input class="inputText" 
 								type="date" 
 								id="birthDay" 
@@ -106,7 +106,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="labelText" for="phoneNumber">Phone number:</label>
+								<label class="labelText" for="phoneNumber">Número telefónico:</label>
 								<input class="inputText" 
 								type="text" 
 								id="phoneNumber" 

@@ -26,7 +26,7 @@ namespace Beneficiaries.API.Controllers
             if (employee == null)
             {
                 _logger.LogError("Employee data must be provided!");
-                return BadRequest("Employee data is null");
+                return BadRequest("No se enviaron datos");
             }
 
             var newEmployeeId = await _employeeService.Add(employee);
@@ -41,7 +41,7 @@ namespace Beneficiaries.API.Controllers
             if (employee == null || employee.ID == 0)
             {
                 _logger.LogError("Employee data or ID must be provided!");
-                return BadRequest("Invalid employee data or ID");
+                return BadRequest("No se enviaron datos");
             }
 
             try
@@ -68,7 +68,7 @@ namespace Beneficiaries.API.Controllers
             if (id == 0)
             {
                 _logger.LogError("ID must be provided!");
-                return BadRequest("Invalid ID");
+                return BadRequest("ID invalido");
             }
 
             var result = await _employeeService.Delete(id);

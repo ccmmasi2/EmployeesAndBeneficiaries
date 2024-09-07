@@ -38,13 +38,13 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                 beneficiary.CURP, beneficiary.SSN, beneficiary.PhoneNumber,
                 beneficiary.CountryId, beneficiary.ParticipationPercentaje);
 
-            return "Beneficiary updated successfully";
+            return "Beneficiario actualizado!";
         }
 
         public async Task<string> Delete(Int64 id)
         {
             await _context.Database.ExecuteSqlRawAsync("EXEC DeleteBeneficiary @Id = {0}", id);
-            return "Beneficiary deleted successfully";
+            return "Beneficiario eliminado";
         }
 
         public async Task<PagedList<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")

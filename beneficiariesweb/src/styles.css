@@ -99,8 +99,8 @@ header {
 
 /*home*/
 
-.matrix-info {
-  max-width: 600px;
+.home-info {
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f8f8f8;

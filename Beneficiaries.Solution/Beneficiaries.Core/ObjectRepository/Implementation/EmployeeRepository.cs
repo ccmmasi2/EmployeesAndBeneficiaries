@@ -43,13 +43,13 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                 employee.CURP, employee.SSN, employee.PhoneNumber,
                 employee.CountryId, employee.EmployeeNumber);
 
-            return "Employee updated successfully";
+            return "Empleado actualizado";
         }
 
         public async Task<string> Delete(Int64 id)
         {
             await _context.Database.ExecuteSqlRawAsync("EXEC DeleteEmployee @Id = {0}", id);
-            return "Employee deleted successfully";
+            return "Empleado eliminado!";
         } 
 
         public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
