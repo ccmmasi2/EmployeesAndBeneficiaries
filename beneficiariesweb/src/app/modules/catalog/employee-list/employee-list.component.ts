@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeDTO } from '@app/models/employee.model';
+import { ActionsDialogComponent } from '@app/modules/shared/actions-dialog/actions-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
 import { EmployeeSharedService } from '@app/services/employee-shared.service';
 
@@ -36,6 +38,7 @@ export class EmployeeListComponent implements OnInit {
     private alertService: AlertService,
     public employeeSharedService: EmployeeSharedService,
     public _MatPaginatorIntl: MatPaginatorIntl,
+    private dialog: MatDialog,
   ) {
     this.dataSource = new MatTableDataSource<EmployeeDTO>();
    }
@@ -73,4 +76,16 @@ export class EmployeeListComponent implements OnInit {
       this.refreshEmployeeList(this.pageIndex, this.pageSizeLength, this.sorting);
     }
   } 
+
+  openActionsDialog(event: MouseEvent, row: any) {
+    const offsetX = 240;
+    const offsety = 35;
+    this.dialog.open(ActionsDialogComponent, {
+      data: { processId: 123 },
+      position: {
+        top: event.clientY - offsety + 'px',
+        left: event.clientX - offsetX + 'px',
+      },
+    });
+  }
 }
