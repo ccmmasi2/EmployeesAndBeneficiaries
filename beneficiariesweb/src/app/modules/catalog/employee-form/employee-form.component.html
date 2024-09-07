@@ -2,7 +2,7 @@
 <div class="mat-app-backgroud basic-container">
 	<div class="contain-main">
 		<div class="contain-head">
-			<div class="contain-title button" (click)="toggleCollapse()">Click to add employee</div> 
+			<div class="contain-title button" (click)="toggleCollapse()">Click to watch or add employee</div> 
 		</div>
 		<div class="contain-body">
 			<div id="addEdit" [class.collapsed]="isCollapsed" [class.expanded]="!isCollapsed">
@@ -116,7 +116,8 @@
 							</div> 
 							
 						</form>
-						<button class="button" type="submit" (click)="submitForm()">Submit</button>
+						<button class="button" type="submit" (click)="submitForm()" *ngIf="activateSubmitButton">Submit</button>
+						<button class="button" (click)="resetForm()">Clear</button>
 					</div>
 				</div>
 			</div>

@@ -22,11 +22,12 @@ export class EmployeeFormComponent implements OnInit {
   countryIdOptions: CountryDTO[] = [];
   name: string = '';
   lastName: string = '';
-  birthDay!: Date;
+  birthDay: string = '';
   phoneNumber: string = '';
   curp: string = '';
   ssn: string = '';
   employeeNumber: number = 0;
+  activateSubmitButton: boolean = true;
   
   constructor(
     public apiConnectionService: ApiConnectionService,
@@ -35,18 +36,24 @@ export class EmployeeFormComponent implements OnInit {
     private eventService: EventService
   ) {
     this.eventService.watchButtonClick.subscribe((employeeId: number) => {
-      console.log('1');
       this.loadEmployee(employeeId);
+      this.activateSubmitButton = false;
+      console.log("watchButtonClick this.activateSubmitButton: " + this.activateSubmitButton);      
+    });
+    this.eventService.editButtonClick.subscribe((employeeId: number) => {
+      this.loadEmployee(employeeId);
+      this.activateSubmitButton = true;      
+      console.log("editButtonClick this.activateSubmitButton: " + this.activateSubmitButton);      
     });
   }
 
   loadEmployee(employeeId: number){
-    console.log('2');
     this.apiConnectionService.getEmployeeXId(employeeId)
     .subscribe((employee) => { 
-      console.log('3');
-      console.log('4: ' + employee);
+      employee.birthDay = new Date(employee.birthDay).toISOString().split('T')[0];  
       this.employeeForm.reset(employee);
+      this.selectCountryId = employee.countryId;
+      this.isCollapsed = false; 
     });
   }
 
@@ -105,6 +112,7 @@ export class EmployeeFormComponent implements OnInit {
             const message = 'Employee created successfully';
             this.alertService.showAlert(message, 'success');
             this.resetForm();
+            this.isCollapsed = true;
             this.refreshEmployeeList();
           },
           error: (error) => {
@@ -141,7 +149,7 @@ export class EmployeeFormComponent implements OnInit {
     return employeeRequest;
   }
 
-  private resetForm(): void {
+  public resetForm(): void {
     this.selectCountryId = 0;
     this.name = '';
     this.lastName = '';
@@ -150,8 +158,6 @@ export class EmployeeFormComponent implements OnInit {
     this.curp = '';
     this.ssn = '';
     this.employeeNumber = 0;
-    this.isCollapsed = true;
-
     this.employeeForm.resetForm();
   }
 }
