@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { CountryDTO } from '@app/models/country.model';
@@ -127,21 +127,23 @@ export class ApiConnectionService {
         responseType: 'text' as 'json'
       })
       .pipe(
-        map((response) => {
-          if (response.status === 200) {
-            return response.body ? response.body.toString() : "Empleado actualizado correctamente.";
-          } else if (response.status === 204) {
-            return "Actualización exitosa, sin contenido para mostrar.";
-          } else {
-            return 'Error desconocido';
-          }
+        map(response => {
+          return 'Empleado actualizado correctamente';
         }),
-        catchError((error) => {
-          console.error('Error updating employee:', error);
-          return 'Error al actualizar empleado';  
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'Error al actualizar empleado';
+          if (error.error instanceof ErrorEvent) {
+            console.error('An error occurred:', error.error.message);
+          } else {
+            console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+            if (error.status === 409) {  
+              errorMessage = 'Error: El número de empleado ya existe.';
+            }
+          }
+          return throwError(errorMessage);
         })
       );
-  } 
+  }
 
   deleteEmployee(id: number): Observable<string> {
     const url = `${this.baseUrl}/api/Employee/Delete/${id}`;

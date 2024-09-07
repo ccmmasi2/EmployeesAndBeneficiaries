@@ -147,7 +147,7 @@ export class EmployeeFormComponent implements OnInit {
             error: (error) => {
               const message = `An error occurred while creating the employee: ${error.message || error}`;
               this.alertService.showAlert(message, 'error');
-              this.isCollapsed = true;
+              this.isCollapsed = false;
             }
           });
         }

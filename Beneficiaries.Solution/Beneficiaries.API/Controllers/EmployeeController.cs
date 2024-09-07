@@ -1,6 +1,7 @@
 ﻿using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace Beneficiaries.API.Controllers
 {
@@ -43,8 +44,20 @@ namespace Beneficiaries.API.Controllers
                 return BadRequest("Invalid employee data or ID");
             }
 
-            var result = await _employeeService.Update(employee);
-            return Ok(result);
+            try
+            {
+                var result = await _employeeService.Update(employee);
+                return Ok(result);
+            }
+            catch (SqlException ex) when (ex.Number == 2601 || ex.Number == 2627)
+            {
+                return Conflict("El número de empleado ya existe.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating employee: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete("Delete/{id}")]
