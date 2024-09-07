@@ -111,14 +111,47 @@ export class ApiConnectionService {
   }  
 
   createEmployee(employeRequest: EmployeeDTO): Observable<EmployeeDTO> {
-    let url = `${this.baseUrl}/api/Employee/Add`;
+    const url = `${this.baseUrl}/api/Employee/Add`;
     return this.http.post<EmployeeDTO>(url, employeRequest).pipe(
         catchError((error: any) => {
           console.error('Error creating employee:', error);
           throw error;  
         })
       )
-  }
+  } 
+
+  updateEmployee(employeRequest: EmployeeDTO): Observable<string> {
+    return this.http
+      .put(`${this.baseUrl}/api/Employee/Update`, employeRequest, {
+        observe: 'response',
+        responseType: 'text' as 'json'
+      })
+      .pipe(
+        map((response) => {
+          if (response.status === 200) {
+            return response.body ? response.body.toString() : "Empleado actualizado correctamente.";
+          } else if (response.status === 204) {
+            return "Actualización exitosa, sin contenido para mostrar.";
+          } else {
+            return 'Error desconocido';
+          }
+        }),
+        catchError((error) => {
+          console.error('Error updating employee:', error);
+          return 'Error al actualizar empleado';  
+        })
+      );
+  } 
+
+  deleteEmployee(id: number): Observable<string> {
+    const url = `${this.baseUrl}/api/Employee/Delete/${id}`;
+    return this.http.delete<string>(url, { responseType: 'text' as 'json' }).pipe(
+        catchError((error: any) => {
+          console.error('Error deleting  employee:', error);
+          return throwError(() => new Error('Error deleting employee: ' + (error.message || error)));
+        })
+      ) 
+  } 
 
   getEmployeeXId(
     employeeId: number,

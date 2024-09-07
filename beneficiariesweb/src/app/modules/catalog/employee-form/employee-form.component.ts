@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { CountryDTO } from '@app/models/country.model';
 import { EmployeeDTO } from '@app/models/employee.model';
+import { ConfirmDialogComponent } from '@app/modules/shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
 import { EmployeeSharedService } from '@app/services/employee-shared.service';
@@ -18,6 +20,7 @@ export class EmployeeFormComponent implements OnInit {
   @ViewChild('employeeForm') employeeForm!: NgForm; 
   cartItems: EmployeeDTO[] = []; 
 
+  employeeId: number = 0;
   selectCountryId: number = 0;
   countryIdOptions: CountryDTO[] = [];
   name: string = '';
@@ -33,17 +36,21 @@ export class EmployeeFormComponent implements OnInit {
     public apiConnectionService: ApiConnectionService,
     private alertService: AlertService,
     public employeeSharedService: EmployeeSharedService,
-    private eventService: EventService
+    private eventService: EventService,
+    private dialog: MatDialog
   ) {
     this.eventService.watchButtonClick.subscribe((employeeId: number) => {
       this.loadEmployee(employeeId);
+      this.employeeId = 0;
       this.activateSubmitButton = false;
-      console.log("watchButtonClick this.activateSubmitButton: " + this.activateSubmitButton);      
     });
     this.eventService.editButtonClick.subscribe((employeeId: number) => {
       this.loadEmployee(employeeId);
+      this.employeeId = employeeId;
       this.activateSubmitButton = true;      
-      console.log("editButtonClick this.activateSubmitButton: " + this.activateSubmitButton);      
+    });
+    this.eventService.deleteButtonClick.subscribe((employeeId: number) => {
+      this.deleteEmployee(employeeId);
     });
   }
 
@@ -54,6 +61,26 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeForm.reset(employee);
       this.selectCountryId = employee.countryId;
       this.isCollapsed = false; 
+    });
+  }  
+
+  deleteEmployee(employeeId: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiConnectionService.deleteEmployee(employeeId).subscribe(
+          (response) => { 
+            this.alertService.showAlert(response, 'success');
+            this.refreshEmployeeList();
+          },
+          (error) => {
+            this.alertService.showAlert(`Error deleting employee: ${error.message || error}`, 'error');
+          }
+        );
+      }
     });
   }
 
@@ -105,22 +132,43 @@ export class EmployeeFormComponent implements OnInit {
         return;
       }
       else {
-        const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
+        console.log(this.employeeId);
+        if(this.employeeId > 0) {
+          const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
+          employeeRequest.id = this.employeeId;
+
+          this.apiConnectionService.updateEmployee(employeeRequest).subscribe({
+            next: (message) => {
+              this.alertService.showAlert(message, 'success');
+              this.resetForm();
+              this.isCollapsed = true;
+              this.refreshEmployeeList();
+            },
+            error: (error) => {
+              const message = `An error occurred while creating the employee: ${error.message || error}`;
+              this.alertService.showAlert(message, 'error');
+              this.isCollapsed = true;
+            }
+          });
+        }
+        else {
+          const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
   
-        this.employeeSharedService.addEmployee(employeeRequest).subscribe({
-          next: () => {
-            const message = 'Employee created successfully';
-            this.alertService.showAlert(message, 'success');
-            this.resetForm();
-            this.isCollapsed = true;
-            this.refreshEmployeeList();
-          },
-          error: (error) => {
-            const message = `An error occurred while creating the employee: ${error.message || error}`;
-            this.alertService.showAlert(message, 'error');
-            this.isCollapsed = true;
-          }
-        });
+          this.apiConnectionService.createEmployee(employeeRequest).subscribe({
+            next: () => {
+              const message = 'Employee created successfully';
+              this.alertService.showAlert(message, 'success');
+              this.resetForm();
+              this.isCollapsed = true;
+              this.refreshEmployeeList();
+            },
+            error: (error) => {
+              const message = `An error occurred while creating the employee: ${error.message || error}`;
+              this.alertService.showAlert(message, 'error');
+              this.isCollapsed = true;
+            }
+          });
+        } 
       } 
     }  else {
       this.alertService.showAlert('Please fill in all required fields.', 'error');
@@ -130,8 +178,8 @@ export class EmployeeFormComponent implements OnInit {
   
   refreshEmployeeList() {
     this.employeeSharedService.getEmployees();
-  }
-
+  } 
+  
   private prepareEmployeeDTO(): EmployeeDTO {
     const employeeRequest: EmployeeDTO = {
       id: 0,

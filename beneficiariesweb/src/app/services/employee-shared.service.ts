@@ -53,12 +53,12 @@ export class EmployeeSharedService {
     });
   } 
 
-  addEmployee(employee: EmployeeDTO): Observable<EmployeeDTO>{
-    return this.apiService.createEmployee(employee).pipe(
-      catchError(error => {
-        console.error('Error adding employee', error);
-        return throwError(() => new Error('Failed to add employee'));
-      })
-    );
-  }
+  // addEmployee(employee: EmployeeDTO): Observable<EmployeeDTO>{
+  //   return this.apiService.createEmployee(employee).pipe(
+  //     catchError(error => {
+  //       console.error('Error adding employee', error);
+  //       return throwError(() => new Error('Failed to add employee'));
+  //     })
+  //   );
+  // }
 }
