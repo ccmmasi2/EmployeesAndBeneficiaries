@@ -118,7 +118,8 @@ export class EmployeeFormComponent implements OnInit {
       birthDay: this.birthDay,
       curp: this.curp,
       ssn: this.ssn,
-      phoneNumber: this.phoneNumber 
+      phoneNumber: this.phoneNumber,
+      countryName: ''
     }
 
     return employeeRequest;

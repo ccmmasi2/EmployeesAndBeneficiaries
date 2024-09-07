@@ -59,7 +59,8 @@ namespace Beneficiaries.Core.Migrations
                             e.SSN, 
                             e.PHONENUMBER, 
                             e.CountryId, 
-                            e.EMPLOYEENUMBER
+                            e.EMPLOYEENUMBER,
+                            c.NAME CountryName
                         FROM EMPLOYEES e
                         INNER JOIN COUNTRIES c ON e.CountryId = c.ID
                         ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 

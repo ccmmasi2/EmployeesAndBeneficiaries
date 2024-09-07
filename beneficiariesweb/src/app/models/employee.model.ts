@@ -7,5 +7,6 @@ export class EmployeeDTO {
     ssn: string = '';
     phoneNumber: string = '';
     countryId: number = 0;
+    countryName: string = '';
     employeeNumber: number = 0;
 }

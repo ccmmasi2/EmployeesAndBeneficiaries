@@ -4,7 +4,6 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { AlertService } from '@app/services/alert-service.service';
-import { ApiConnectionService } from '@app/services/api-connection.service';
 import { EmployeeSharedService } from '@app/services/employee-shared.service';
 
 @Component({
@@ -18,7 +17,11 @@ export class EmployeeListComponent implements OnInit {
     'employeeNumber',
     'name',
     'lastName',
+    'birthDay',
+    'curp',
+    'ssn',
     'phoneNumber',
+    'countryName',
     'actions'
   ];
   dataSource: MatTableDataSource<EmployeeDTO>;
