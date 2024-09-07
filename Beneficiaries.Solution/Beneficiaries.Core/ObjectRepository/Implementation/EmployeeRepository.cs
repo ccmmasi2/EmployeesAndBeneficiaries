@@ -111,9 +111,10 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
 
         public async Task<EmployeeDTO> ObtXId(Int64 id)
         {
-            var employee = await _context.Employees
+            var employee = _context.Employees
             .FromSqlRaw("EXEC GetEmployeeById @Id = {0}", id)
-            .FirstOrDefaultAsync();
+            .AsEnumerable()
+            .FirstOrDefault();
 
             return employee;
         } 

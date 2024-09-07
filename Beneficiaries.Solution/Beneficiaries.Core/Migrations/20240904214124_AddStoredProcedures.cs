@@ -76,7 +76,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE DeleteBeneficiary
-                    @Id INT
+                    @Id BIGINT
                 AS
                 BEGIN
                     DELETE FROM BENEFICIARIES
@@ -86,7 +86,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE DeleteEmployee
-                    @Id INT
+                    @Id BIGINT
                 AS
                 BEGIN
                     DELETE FROM EMPLOYEES
@@ -121,7 +121,7 @@ namespace Beneficiaries.Core.Migrations
                     @SSN NVARCHAR(50),
                     @PhoneNumber NVARCHAR(50),
                     @CountryId INT,
-                    @EmployeeNumber INT
+                    @EmployeeNumber BIGINT
                 AS
                 BEGIN
                     INSERT INTO EMPLOYEES (NAME, LASTNAME, BIRTHDAY, CURP, SSN, PHONENUMBER, CountryId, EMPLOYEENUMBER)
@@ -132,7 +132,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE UpdateBeneficiary
-                    @Id INT,
+                    @Id BIGINT,
                     @Name NVARCHAR(50),
                     @LastName NVARCHAR(50),
                     @BirthDay DATE,
@@ -159,7 +159,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE UpdateEmployee
-                    @Id INT,
+                    @Id BIGINT,
                     @Name NVARCHAR(50),
                     @LastName NVARCHAR(50),
                     @BirthDay DATE,
@@ -167,7 +167,7 @@ namespace Beneficiaries.Core.Migrations
                     @SSN NVARCHAR(50),
                     @PhoneNumber NVARCHAR(50),
                     @CountryId INT,
-                    @EmployeeNumber INT
+                    @EmployeeNumber BIGINT
                 AS
                 BEGIN
                     UPDATE EMPLOYEES
@@ -186,7 +186,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE GetBeneficiaryById
-                    @Id FLOAT
+                    @Id BIGINT
                 AS
                 BEGIN
                     SELECT 
@@ -206,7 +206,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE PROCEDURE GetEmployeeById
-                    @Id FLOAT
+                    @Id BIGINT
                 AS
                 BEGIN
                     SELECT 
@@ -226,7 +226,7 @@ namespace Beneficiaries.Core.Migrations
 
             migrationBuilder.Sql(@"
 	            CREATE PROCEDURE GetBeneficiariesByEmployeeId
-		            @EmployeeId FLOAT,
+		            @EmployeeId BIGINT,
                     @Page INT,
                     @SizePage INT,
                     @Sorting NVARCHAR(50)

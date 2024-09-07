@@ -78,10 +78,11 @@ export class EmployeeListComponent implements OnInit {
   } 
 
   openActionsDialog(event: MouseEvent, row: any) {
+    const employeeObject: EmployeeDTO = row as EmployeeDTO;
     const offsetX = 240;
     const offsety = 35;
     this.dialog.open(ActionsDialogComponent, {
-      data: { processId: 123 },
+      data: { employeeId: employeeObject.id },
       position: {
         top: event.clientY - offsety + 'px',
         left: event.clientX - offsetX + 'px',

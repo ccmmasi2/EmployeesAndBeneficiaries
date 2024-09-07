@@ -8,7 +8,7 @@ import { EventService } from '@app/services/event.service';
 })
 
 export class ActionsDialogComponent  implements OnInit { 
-  processId!: number;
+  employeeId!: number;
 
   constructor(
     public dialogRef: MatDialogRef<ActionsDialogComponent>,
@@ -17,11 +17,26 @@ export class ActionsDialogComponent  implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.processId = this.data.processId;
+    this.employeeId = this.data.employeeId;
   }
  
   invokeWatchClickEvent() {
-    this.eventService.emitWatchButtonClick(this.processId);
+    this.eventService.emitWatchButtonClick(this.employeeId);
+    this.dialogRef.close(); 
+  }
+ 
+  invokeEditClickEvent() {
+    this.eventService.emitEditButtonClick(this.employeeId);
+    this.dialogRef.close(); 
+  }
+ 
+  invokeDeleteClickEvent() {
+    this.eventService.emitDeleteButtonClick(this.employeeId);
+    this.dialogRef.close(); 
+  }
+ 
+  invokeWatchBeneficiariesClickEvent() {
+    this.eventService.emitWatchBeneficiariesButtonClick(this.employeeId);
     this.dialogRef.close(); 
   }
 }

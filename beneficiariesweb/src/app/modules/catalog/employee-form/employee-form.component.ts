@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { CountryDTO } from '@app/models/country.model';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
 import { EmployeeSharedService } from '@app/services/employee-shared.service';
+import { EventService } from '@app/services/event.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -13,7 +14,7 @@ import { EmployeeSharedService } from '@app/services/employee-shared.service';
 
 export class EmployeeFormComponent implements OnInit {
   isCollapsed: boolean = true;
-
+ 
   @ViewChild('employeeForm') employeeForm!: NgForm; 
   cartItems: EmployeeDTO[] = []; 
 
@@ -30,8 +31,23 @@ export class EmployeeFormComponent implements OnInit {
   constructor(
     public apiConnectionService: ApiConnectionService,
     private alertService: AlertService,
-    public employeeSharedService: EmployeeSharedService
+    public employeeSharedService: EmployeeSharedService,
+    private eventService: EventService
   ) {
+    this.eventService.watchButtonClick.subscribe((employeeId: number) => {
+      console.log('1');
+      this.loadEmployee(employeeId);
+    });
+  }
+
+  loadEmployee(employeeId: number){
+    console.log('2');
+    this.apiConnectionService.getEmployeeXId(employeeId)
+    .subscribe((employee) => { 
+      console.log('3');
+      console.log('4: ' + employee);
+      this.employeeForm.reset(employee);
+    });
   }
 
   ngOnInit(): void {

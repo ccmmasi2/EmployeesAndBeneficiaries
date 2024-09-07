@@ -119,4 +119,18 @@ export class ApiConnectionService {
         })
       )
   }
+
+  getEmployeeXId(
+    employeeId: number,
+  ): Observable<EmployeeDTO> {
+    const url = `${this.baseUrl}/api/Employee/${employeeId}`;
+
+    return this.http.get<{result: EmployeeDTO}>(url).pipe(
+      map(response => response.result), 
+      catchError((error: any) => {
+        console.error('Error getting the employee:', error);
+        return throwError(() => new Error('Failed to load the employee'));
+      })
+    );
+  } 
 }
