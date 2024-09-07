@@ -1,9 +1,11 @@
+using Beneficiaries.API.utilities;
 using Beneficiaries.Core.BusinessLogic.Implementation;
 using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Data;
 using Beneficiaries.Core.Init;
 using Beneficiaries.Core.ObjectRepository.Implementation;
 using Beneficiaries.Core.ObjectRepository.Interface;
+using Beneficiaries.Core.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +37,7 @@ builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IBeneficiaryRepository, BeneficiaryRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
 
 var app = builder.Build();
 

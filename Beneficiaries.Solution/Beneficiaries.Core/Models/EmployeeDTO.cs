@@ -8,9 +8,5 @@ namespace Beneficiaries.Core.Models
     {
         [Column("EMPLOYEENUMBER"), Required]
         public Int64 EmployeeNumber { get; set; }
-
-        //other properties
-        [NotMapped]
-        public string CountryName { get; set; }
     }
 }

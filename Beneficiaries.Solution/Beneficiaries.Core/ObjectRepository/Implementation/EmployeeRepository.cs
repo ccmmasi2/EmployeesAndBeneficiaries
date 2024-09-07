@@ -2,17 +2,22 @@
 using Beneficiaries.Core.Models;
 using Beneficiaries.Core.ObjectRepository.Interface;
 using Beneficiaries.Core.Utilities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
 {
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly AppDbContext _context;
+        private readonly IConfigurationService _configurationService;
 
-        public EmployeeRepository(AppDbContext context)
+
+        public EmployeeRepository(AppDbContext context, IConfigurationService configurationService)
         {
             _context = context;
+            _configurationService = configurationService;
         }
 
         public async Task<int> Add(EmployeeDTO employee)
@@ -47,18 +52,61 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             return "Employee deleted successfully";
         }
 
-        public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
+        public async Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
-            var employees = new List<EmployeeDTO>();
+            var employees = new List<EmployeeReport>();
             var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting='{sorting}'";
 
             var result = _context.Employees.FromSqlRaw(query).AsNoTracking();
 
-            employees = await result.ToListAsync();
+            employees = result.Select(e => CastObject.ConvertTo<EmployeeReport>(e)).ToList();
 
             var totalRecords = await _context.Employees.CountAsync();
 
-            return new PagedList<EmployeeDTO>(employees, totalRecords, page, sizePage);
+            return new PagedList<EmployeeReport>(employees, totalRecords, page, sizePage);
+        }
+
+        public async Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "Id")
+        {
+            var connectionString = _configurationService.GetConnectionString();
+            var employees = new List<EmployeeReport>();
+            int totalCount = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("GetAllEmployees", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@Page", page));
+                    command.Parameters.Add(new SqlParameter("@SizePage", sizePage));
+                    command.Parameters.Add(new SqlParameter("@Sorting", sorting));
+                    command.Parameters.Add("@TotalCount", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    connection.Open();
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var employee = new EmployeeReport
+                            {
+                                ID = reader.GetInt64(reader.GetOrdinal("ID")),
+                                Name = reader.GetString(reader.GetOrdinal("NAME")),
+                                LastName = reader.GetString(reader.GetOrdinal("LASTNAME")),
+                                BirthDay = reader.GetDateTime(reader.GetOrdinal("BIRTHDAY")),
+                                CURP = reader.IsDBNull(reader.GetOrdinal("CURP")) ? null : reader.GetString(reader.GetOrdinal("CURP")),
+                                SSN = reader.IsDBNull(reader.GetOrdinal("SSN")) ? null : reader.GetString(reader.GetOrdinal("SSN")),
+                                PhoneNumber = reader.GetString(reader.GetOrdinal("PHONENUMBER")),
+                                EmployeeNumber = reader.GetInt64(reader.GetOrdinal("EMPLOYEENUMBER")),
+                                CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName"))
+                            };
+                            employees.Add(employee);
+                        }
+                    }
+
+                    totalCount = (int)command.Parameters["@TotalCount"].Value;
+                }
+            }
+            return new PagedList<EmployeeReport>(employees, totalCount, page, sizePage); ;
         }
 
         public async Task<EmployeeDTO> ObtXId(Int64 id)

@@ -67,7 +67,7 @@ namespace Beneficiaries.API.Controllers
         public async Task<ActionResult<IEnumerable<object>>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list");
-            var LItems = await _employeeService.ObtAll(page, sizePage, sorting);
+            var LItems = await _employeeService.ObtAllDAO(page, sizePage, sorting);
             return Ok(LItems);
         }
 

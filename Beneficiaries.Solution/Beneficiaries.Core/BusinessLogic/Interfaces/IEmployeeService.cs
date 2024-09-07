@@ -11,7 +11,9 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
 
         Task<string> Delete(Int64 id);
 
-        Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id");
+        Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id");
+
+        Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "Id");
 
         Task<EmployeeDTO> ObtXId(Int64 id);
     }

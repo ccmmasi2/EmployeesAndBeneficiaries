@@ -43,7 +43,8 @@ namespace Beneficiaries.Core.Migrations
                 CREATE PROCEDURE GetAllEmployees
                     @Page INT,
                     @SizePage INT,
-                    @Sorting NVARCHAR(50) 
+                    @Sorting NVARCHAR(50),
+                    @TotalCount INT OUTPUT
                 AS
                 BEGIN
                     DECLARE @Skip INT = (@Page - 1) * @SizePage;
@@ -68,6 +69,8 @@ namespace Beneficiaries.Core.Migrations
                         FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
         
                     EXEC sp_executesql @Sql;
+
+                    SELECT @TotalCount = COUNT(e.ID) FROM EMPLOYEES e; 
                 END;
             ");
 

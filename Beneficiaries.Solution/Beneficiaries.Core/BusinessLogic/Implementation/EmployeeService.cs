@@ -56,11 +56,24 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
+        public async Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
         {
             try
             {
                 return await _employeeRepository.ObtAll(page, sizePage, sorting);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving all employees: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "")
+        {
+            try
+            {
+                return await _employeeRepository.ObtAllDAO(page, sizePage, sorting);
             }
             catch (Exception ex)
             {

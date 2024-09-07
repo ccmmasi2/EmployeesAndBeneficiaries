@@ -2,7 +2,6 @@
 using Beneficiaries.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Beneficiaries.Core.Data
 {
@@ -13,7 +12,7 @@ namespace Beneficiaries.Core.Data
 
         public DbSet<CountryDTO> Countries { get; set; }
         public DbSet<EmployeeDTO> Employees { get; set; }
-        public DbSet<BeneficiaryDTO> Beneficiaries { get; set; }
+        public DbSet<BeneficiaryDTO> Beneficiaries { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
