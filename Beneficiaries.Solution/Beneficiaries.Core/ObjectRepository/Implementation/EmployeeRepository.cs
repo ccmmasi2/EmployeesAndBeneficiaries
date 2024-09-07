@@ -50,20 +50,20 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
         {
             await _context.Database.ExecuteSqlRawAsync("EXEC DeleteEmployee @Id = {0}", id);
             return "Employee deleted successfully";
-        }
+        } 
 
-        public async Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
+        public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
-            var employees = new List<EmployeeReport>();
+            var employees = new List<EmployeeDTO>();
             var query = $"EXEC GetAllEmployees @page={page}, @sizePage={sizePage}, @sorting='{sorting}'";
 
             var result = _context.Employees.FromSqlRaw(query).AsNoTracking();
 
-            employees = result.Select(e => CastObject.ConvertTo<EmployeeReport>(e)).ToList();
+            employees = await result.ToListAsync();
 
             var totalRecords = await _context.Employees.CountAsync();
 
-            return new PagedList<EmployeeReport>(employees, totalRecords, page, sizePage);
+            return new PagedList<EmployeeDTO>(employees, totalRecords, page, sizePage);
         }
 
         public async Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "Id")

@@ -11,7 +11,7 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
 
         Task<string> Delete(Int64 id);
 
-        Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "");
+        Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "");
 
         Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "");
 

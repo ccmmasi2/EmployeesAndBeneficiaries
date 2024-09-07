@@ -56,7 +56,7 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
-        public async Task<PagedList<EmployeeReport>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
+        public async Task<PagedList<EmployeeDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "")
         {
             try
             {
