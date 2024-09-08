@@ -2,7 +2,10 @@
 {
     public class BeneficiaryReport : BeneficiaryDTO
     {
-        public string EmployeeName { get; set; }
         public string CountryName { get; set; }
+
+        public Int64 EmployeeNumber { get; set; }
+
+        public string EmployeeName { get; set; }
     }
 }

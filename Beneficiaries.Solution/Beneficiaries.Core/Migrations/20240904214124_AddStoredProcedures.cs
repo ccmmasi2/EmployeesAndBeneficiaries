@@ -28,10 +28,14 @@ namespace Beneficiaries.Core.Migrations
                             b.CURP, 
                             b.SSN, 
                             b.PHONENUMBER, 
-                            b.CountryId, 
-                            b.PARTICIPATIONPERCENTAJE 
+                            b.CountryId,
+                            c.NAME CountryName, 
+                            b.PARTICIPATIONPERCENTAJE,
+                            b.EmployeeId, 
+                            e.Name + ' ' + e.Lastname EmployeeName
                         FROM BENEFICIARIES b
                         INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+                        INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
                         ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
                         OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
                         FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
@@ -201,7 +205,8 @@ namespace Beneficiaries.Core.Migrations
                         b.SSN, 
                         b.PHONENUMBER, 
                         b.CountryId, 
-                        b.PARTICIPATIONPERCENTAJE
+                        b.PARTICIPATIONPERCENTAJE,
+                        b.EmployeeId, 
                     FROM BENEFICIARIES b
                     WHERE b.ID = @Id;
                 END; 
@@ -249,10 +254,14 @@ namespace Beneficiaries.Core.Migrations
 			                b.CURP, 
 			                b.SSN, 
 			                b.PHONENUMBER, 
-			                b.CountryId, 
-			                b.PARTICIPATIONPERCENTAJE 
+			                b.CountryId,
+                            c.NAME CountryName,  
+			                b.PARTICIPATIONPERCENTAJE,
+                            b.EmployeeId, 
+                            e.Name + ' ' + e.Lastname EmployeeName
 		                FROM BENEFICIARIES b
 		                INNER JOIN COUNTRIES c ON b.CountryId = c.ID
+                        INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
 		                WHERE b.EmployeeId = @EmployeeId
                         ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
                         OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
