@@ -6,7 +6,7 @@ import { EmployeeDTO } from '@app/models/employee.model';
 import { ConfirmDialogComponent } from '@app/modules/shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
-import { EmployeeSharedService } from '@app/services/employee-shared.service';
+import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 import { EventService } from '@app/services/event.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class EmployeeFormComponent implements OnInit {
   constructor(
     public apiConnectionService: ApiConnectionService,
     private alertService: AlertService,
-    public employeeSharedService: EmployeeSharedService,
+    public reactiveSharedService: ReactiveSharedService,
     private eventService: EventService,
     private dialog: MatDialog
   ) {
@@ -177,7 +177,7 @@ export class EmployeeFormComponent implements OnInit {
   }
   
   refreshEmployeeList() {
-    this.employeeSharedService.getEmployees();
+    this.reactiveSharedService.getEmployees();
   } 
   
   private prepareEmployeeDTO(): EmployeeDTO {

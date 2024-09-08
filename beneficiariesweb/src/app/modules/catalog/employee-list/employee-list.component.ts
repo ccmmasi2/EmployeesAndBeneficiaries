@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeDTO } from '@app/models/employee.model';
 import { ActionsDialogComponent } from '@app/modules/shared/actions-dialog/actions-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
-import { EmployeeSharedService } from '@app/services/employee-shared.service';
+import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -36,7 +36,7 @@ export class EmployeeListComponent implements OnInit {
 
   constructor(
     private alertService: AlertService,
-    public employeeSharedService: EmployeeSharedService,
+    public reactiveSharedService: ReactiveSharedService,
     public _MatPaginatorIntl: MatPaginatorIntl,
     private dialog: MatDialog,
   ) {
@@ -49,7 +49,7 @@ export class EmployeeListComponent implements OnInit {
   }
  
   subscribeToData(): void { 
-    this.employeeSharedService.employees$.subscribe({
+    this.reactiveSharedService.employees$.subscribe({
       next: data => {
         this.dataSource.data = data.data;
         this.length = data.totalRecords;
@@ -61,7 +61,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   refreshEmployeeList(page: number, sizePage: number, sorting: string) {
-    this.employeeSharedService.getEmployees(page + 1, sizePage, sorting);
+    this.reactiveSharedService.getEmployees(page + 1, sizePage, sorting);
   }  
 
   pageChanged(event: PageEvent) { 

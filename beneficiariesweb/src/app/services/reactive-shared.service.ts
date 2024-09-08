@@ -8,7 +8,7 @@ import { BeneficiaryDTO } from '@app/models/beneficiary.model';
   providedIn: 'root'
 })
 
-export class EmployeeSharedService {
+export class ReactiveSharedService {
   private employeesSource = new BehaviorSubject<{ 
     totalRecords: number, 
     data: EmployeeDTO[] 
