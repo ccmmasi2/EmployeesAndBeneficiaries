@@ -2,7 +2,7 @@ export class BeneficiaryDTO {
     id: number = 0;
     name: string = '';
     lastName: string = '';
-    birthDay!: Date;
+    birthDay: string = '';
     curp: string = '';
     ssn: string = '';
     phoneNumber: string = '';

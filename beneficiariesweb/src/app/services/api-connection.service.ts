@@ -168,4 +168,61 @@ export class ApiConnectionService {
       })
     );
   } 
+
+  /* */
+  createBeneficiary(beneficiaryRequest: BeneficiaryDTO): Observable<BeneficiaryDTO> {
+    const url = `${this.baseUrl}/api/Beneficiary/Add`;
+    return this.http.post<BeneficiaryDTO>(url, beneficiaryRequest).pipe(
+        catchError((error: any) => {
+          console.error('Error creando beneficiario:', error);
+          throw error;  
+        })
+      )
+  } 
+
+  updateBeneficiary(beneficiaryRequest: BeneficiaryDTO): Observable<string> {
+    return this.http
+      .put(`${this.baseUrl}/api/Beneficiary/Update`, beneficiaryRequest, {
+        observe: 'response',
+        responseType: 'text' as 'json'
+      })
+      .pipe(
+        map(response => {
+          return 'Beneficiario actualizado correctamente';
+        }),
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'Error al actualizar beneficiario';
+          if (error.error instanceof ErrorEvent) {
+            console.error('An error occurred:', error.error.message);
+          } else {
+            console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+          }
+          return throwError(errorMessage);
+        })
+      );
+  }
+
+  deleteBeneficiary(id: number): Observable<string> {
+    const url = `${this.baseUrl}/api/Beneficiary/Delete/${id}`;
+    return this.http.delete<string>(url, { responseType: 'text' as 'json' }).pipe(
+        catchError((error: any) => {
+          console.error('Error eliminando beneficiario:', error);
+          return throwError(() => new Error('Error eliminando beneficiario: ' + (error.message || error)));
+        })
+      ) 
+  } 
+
+  getBeneficiaryXId(
+    beneficiaryId: number,
+  ): Observable<BeneficiaryDTO> {
+    const url = `${this.baseUrl}/api/Beneficiary/${beneficiaryId}`;
+
+    return this.http.get<{result: BeneficiaryDTO}>(url).pipe(
+      map(response => response.result), 
+      catchError((error: any) => {
+        console.error('Error obteniendo beneficiario:', error);
+        return throwError(() => new Error('Error obteniendo beneficiario'));
+      })
+    );
+  } 
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { CountryDTO } from '@app/models/country.model';
-import { EmployeeDTO } from '@app/models/employee.model';
 import { ConfirmDialogComponent } from '@app/modules/shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
@@ -17,10 +17,10 @@ import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 export class BeneficiaryFormComponent implements OnInit {
   isCollapsed: boolean = true;
  
-  @ViewChild('employeeForm') employeeForm!: NgForm; 
-  cartItems: EmployeeDTO[] = []; 
+  @ViewChild('beneficiaryForm') beneficiaryForm!: NgForm; 
+  cartItems: BeneficiaryDTO[] = []; 
 
-  employeeId: number = 0;
+  beneficiaryId: number = 0;
   selectCountryId: number = 0;
   countryIdOptions: CountryDTO[] = [];
   name: string = '';
@@ -29,7 +29,7 @@ export class BeneficiaryFormComponent implements OnInit {
   phoneNumber: string = '';
   curp: string = '';
   ssn: string = '';
-  employeeNumber: number = 0;
+  participationPercentaje: number = 0;
   activateSubmitButton: boolean = true;
   
   constructor(
@@ -39,45 +39,45 @@ export class BeneficiaryFormComponent implements OnInit {
     private eventService: EventService,
     private dialog: MatDialog
   ) {
-    this.eventService.watchButtonClick.subscribe((employeeId: number) => {
-      this.loadEmployee(employeeId);
-      this.employeeId = 0;
+    this.eventService.watchButtonClick.subscribe((beneficiaryId: number) => {
+      this.loadBeneficiary(beneficiaryId);
+      this.beneficiaryId = 0;
       this.activateSubmitButton = false;
     });
-    this.eventService.editButtonClick.subscribe((employeeId: number) => {
-      this.loadEmployee(employeeId);
-      this.employeeId = employeeId;
+    this.eventService.editButtonClick.subscribe((beneficiaryId: number) => {
+      this.loadBeneficiary(beneficiaryId);
+      this.beneficiaryId = beneficiaryId;
       this.activateSubmitButton = true;      
     });
-    this.eventService.deleteButtonClick.subscribe((employeeId: number) => {
-      this.deleteEmployee(employeeId);
+    this.eventService.deleteButtonClick.subscribe((beneficiaryId: number) => {
+      this.deleteBeneficiary(beneficiaryId);
     });
   }
 
-  loadEmployee(employeeId: number){
-    this.apiConnectionService.getEmployeeXId(employeeId)
-    .subscribe((employee) => { 
-      employee.birthDay = new Date(employee.birthDay).toISOString().split('T')[0];  
-      this.employeeForm.reset(employee);
-      this.selectCountryId = employee.countryId;
+  loadBeneficiary(beneficiaryId: number){
+    this.apiConnectionService.getBeneficiaryXId(beneficiaryId)
+    .subscribe((beneficiary) => { 
+      beneficiary.birthDay = new Date(beneficiary.birthDay).toISOString().split('T')[0];  
+      this.beneficiaryForm.reset(beneficiary);
+      this.selectCountryId = beneficiary.countryId;
       this.isCollapsed = false; 
     });
   }  
 
-  deleteEmployee(employeeId: number) {
+  deleteBeneficiary(beneficiaryId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px'
     });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.apiConnectionService.deleteEmployee(employeeId).subscribe(
+        this.apiConnectionService.deleteBeneficiary(beneficiaryId).subscribe(
           (response) => { 
             this.alertService.showAlert(response, 'success');
-            this.refreshEmployeeList();
+            this.refreshBeneficiaryList();
           },
           (error) => {
-            this.alertService.showAlert(`Error eliminando el empleado: ${error.message || error}`, 'error');
+            this.alertService.showAlert(`Error eliminando el beneficiario: ${error.message || error}`, 'error');
           }
         );
       }
@@ -124,46 +124,46 @@ export class BeneficiaryFormComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.employeeForm.valid) {
+    if (this.beneficiaryForm.valid) {
       if (!this.validateAge(this.birthDay)) {
-        const message = `El empleado debe tener al menos 18 años`
+        const message = `El beneficiario debe tener al menos 18 años`
         this.alertService.showAlert(message, 'error'); 
         this.isCollapsed = true;
         return;
       }
       else {
-        console.log(this.employeeId);
-        if(this.employeeId > 0) {
-          const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
-          employeeRequest.id = this.employeeId;
+        console.log(this.beneficiaryId);
+        if(this.beneficiaryId > 0) {
+          const beneficiaryRequest: BeneficiaryDTO = this.prepareBeneficiaryDTO();
+          beneficiaryRequest.id = this.beneficiaryId;
 
-          this.apiConnectionService.updateEmployee(employeeRequest).subscribe({
+          this.apiConnectionService.updateBeneficiary(beneficiaryRequest).subscribe({
             next: (message) => {
               this.alertService.showAlert(message, 'success');
               this.resetForm();
               this.isCollapsed = true;
-              this.refreshEmployeeList();
+              this.refreshBeneficiaryList();
             },
             error: (error) => {
-              const message = `Error al crear el empleado: ${error.message || error}`;
+              const message = `Error al crear el beneficiario: ${error.message || error}`;
               this.alertService.showAlert(message, 'error');
               this.isCollapsed = false;
             }
           });
         }
         else {
-          const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
+          const beneficiaryRequest: BeneficiaryDTO = this.prepareBeneficiaryDTO();
   
-          this.apiConnectionService.createEmployee(employeeRequest).subscribe({
+          this.apiConnectionService.createBeneficiary(beneficiaryRequest).subscribe({
             next: () => {
-              const message = 'Empleado creado';
+              const message = 'Beneficiario creado';
               this.alertService.showAlert(message, 'success');
               this.resetForm();
               this.isCollapsed = true;
-              this.refreshEmployeeList();
+              this.refreshBeneficiaryList();
             },
             error: (error) => {
-              const message = `Error al crear el empleado: ${error.message || error}`;
+              const message = `Error al crear el beneficiario: ${error.message || error}`;
               this.alertService.showAlert(message, 'error');
               this.isCollapsed = true;
             }
@@ -176,22 +176,25 @@ export class BeneficiaryFormComponent implements OnInit {
     }
   }
   
-  refreshEmployeeList() {
-    this.reactiveSharedService.getEmployees();
+  refreshBeneficiaryList() {
+    this.reactiveSharedService.getBeneficiaries();
   } 
   
-  private prepareEmployeeDTO(): EmployeeDTO {
-    const employeeRequest: EmployeeDTO = {
+  private prepareBeneficiaryDTO(): BeneficiaryDTO {
+    const employeeRequest: BeneficiaryDTO = {
       id: 0,
       countryId: this.selectCountryId, 
-      employeeNumber: this.employeeNumber,
+      participationPercentaje: this.participationPercentaje,
       name: this.name,
       lastName: this.lastName, 
       birthDay: this.birthDay,
       curp: this.curp,
       ssn: this.ssn,
       phoneNumber: this.phoneNumber,
-      countryName: ''
+      countryName: '',
+      employeeId: 0,
+      employeeName: '',
+      employeeNumber: 0
     }
 
     return employeeRequest;
@@ -205,7 +208,7 @@ export class BeneficiaryFormComponent implements OnInit {
     this.phoneNumber = '';
     this.curp = '';
     this.ssn = '';
-    this.employeeNumber = 0;
-    this.employeeForm.resetForm();
+    this.participationPercentaje = 0;
+    this.beneficiaryForm.resetForm();
   }
 }
