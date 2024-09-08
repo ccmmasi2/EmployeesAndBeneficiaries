@@ -284,6 +284,28 @@ namespace Beneficiaries.Core.Migrations
                     ORDER BY NAME;
                 END;
             ");
+
+            migrationBuilder.Sql(@"
+                CREATE PROCEDURE GetAllEmployeesByFilter
+                    @Term NVARCHAR(50)
+                AS
+                BEGIN
+                    SELECT 
+                        ID, 
+                        NAME, 
+                        LASTNAME, 
+                        BIRTHDAY, 
+                        CURP, 
+                        SSN, 
+                        PHONENUMBER, 
+                        CountryId, 
+                        EMPLOYEENUMBER
+                    FROM EMPLOYEES
+		            WHERE NAME LIKE '%' + @Term + '%'
+                        OR CONVERT(NVARCHAR, EMPLOYEENUMBER) LIKE '%' + @Term + '%'
+                        OR LASTNAME LIKE '%' + @Term + '%'
+                END;
+            ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -298,7 +320,7 @@ namespace Beneficiaries.Core.Migrations
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS UpdateEmployee");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetBeneficiariesByEmployeeId");
             migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetAllCountries");
+            migrationBuilder.Sql("DROP PROCEDURE IF EXISTS GetAllEmployeesByFilter");
         }
-
     }
 }

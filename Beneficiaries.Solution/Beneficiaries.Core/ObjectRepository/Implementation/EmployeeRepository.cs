@@ -119,13 +119,15 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             .FirstOrDefault();
 
             return employee;
-        }
+        } 
 
         public async Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term)
         {
-            return await _context.Employees
-                .Where(e => e.Name.Contains(term) || e.EmployeeNumber.ToString().Contains(term))
+            var employees = await _context.Employees
+                .FromSqlRaw("EXEC SearchEmployees @Term", new SqlParameter("@Term", term))
                 .ToListAsync();
+
+            return employees;
         }
     }
 }
