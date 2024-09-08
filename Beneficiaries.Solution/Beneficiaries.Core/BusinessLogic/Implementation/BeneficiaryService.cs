@@ -69,6 +69,19 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             }
         }
 
+        public async Task<PagedList<BeneficiaryReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "")
+        {
+            try
+            {
+                return await _beneficiaryRepository.ObtAllDAO(page, sizePage, sorting);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving all beneficiaries: {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<BeneficiaryDTO> ObtXId(Int64 id)
         {
             try
@@ -87,6 +100,19 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
             try
             {
                 return await _beneficiaryRepository.ObtAllXEmployeeId(employeeId, page, sizePage, sorting);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving all beneficiaries by Employee id {employeeId}: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<PagedList<BeneficiaryReport>> ObtAllXEmployeeIdDAO(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "")
+        {
+            try
+            {
+                return await _beneficiaryRepository.ObtAllXEmployeeIdDAO(employeeId, page, sizePage, sorting);
             }
             catch (Exception ex)
             {

@@ -13,8 +13,12 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
 
         Task<PagedList<BeneficiaryDTO>> ObtAll(int page = 1, int sizePage = 10, string sorting = "");
 
+        Task<PagedList<BeneficiaryReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "");
+
         Task<BeneficiaryDTO> ObtXId(Int64 id);
 
         Task<PagedList<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "");
+
+        Task<PagedList<BeneficiaryReport>> ObtAllXEmployeeIdDAO(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "");
     }
 }

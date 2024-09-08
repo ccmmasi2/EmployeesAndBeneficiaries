@@ -68,7 +68,7 @@ namespace Beneficiaries.API.Controllers
         public async Task<ActionResult<IEnumerable<object>>> ObtAll(int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list");
-            var LItems = await _beneficiaryService.ObtAll(page, sizePage, sorting);
+            var LItems = await _beneficiaryService.ObtAllDAO(page, sizePage, sorting);
             return Ok(LItems);
         }
 
@@ -91,7 +91,7 @@ namespace Beneficiaries.API.Controllers
         public async Task<ActionResult<IEnumerable<object>>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id")
         {
             _logger.LogInformation("Get list x Employee Id");
-            var LItems = await _beneficiaryService.ObtAllXEmployeeId(employeeId, page, sizePage, sorting);
+            var LItems = await _beneficiaryService.ObtAllXEmployeeIdDAO(employeeId, page, sizePage, sorting);
             return Ok(LItems);
         }
     }

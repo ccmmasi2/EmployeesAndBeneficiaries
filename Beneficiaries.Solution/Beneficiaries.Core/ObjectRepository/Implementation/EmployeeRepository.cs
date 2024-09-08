@@ -97,6 +97,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                                 SSN = reader.IsDBNull(reader.GetOrdinal("SSN")) ? null : reader.GetString(reader.GetOrdinal("SSN")),
                                 PhoneNumber = reader.GetString(reader.GetOrdinal("PHONENUMBER")),
                                 EmployeeNumber = reader.GetInt64(reader.GetOrdinal("EMPLOYEENUMBER")),
+                                CountryId = reader.GetInt32(reader.GetOrdinal("CountryId")),
                                 CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName"))
                             };
                             employees.Add(employee);
