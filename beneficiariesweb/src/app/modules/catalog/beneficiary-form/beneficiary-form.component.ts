@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { CountryDTO } from '@app/models/country.model';
+import { EmployeeDTO } from '@app/models/employee.model';
 import { ConfirmDialogComponent } from '@app/modules/shared/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
@@ -22,6 +23,8 @@ export class BeneficiaryFormComponent implements OnInit {
 
   beneficiaryId: number = 0;
   selectCountryId: number = 0;
+  selectEmployeeId: number = 0;
+  employeeIdOptions: EmployeeDTO[] = [];
   countryIdOptions: CountryDTO[] = [];
   name: string = '';
   lastName: string = '';
@@ -60,6 +63,7 @@ export class BeneficiaryFormComponent implements OnInit {
       beneficiary.birthDay = new Date(beneficiary.birthDay).toISOString().split('T')[0];  
       this.beneficiaryForm.reset(beneficiary);
       this.selectCountryId = beneficiary.countryId;
+      this.selectEmployeeId = beneficiary.employeeId;
       this.isCollapsed = false; 
     });
   }  
@@ -104,6 +108,25 @@ export class BeneficiaryFormComponent implements OnInit {
     },
     (error) => {
       const message = `Error cargando paises: "${error}"`
+      this.alertService.showAlert(message, 'error'); 
+    })
+
+    const page = 1;  
+    const sizePage = 1000;  
+    const sorting = '';
+    
+    this.apiConnectionService.getEmployees(page, sizePage, sorting).subscribe(
+      (response) => {
+      if(response){
+        this.employeeIdOptions = response.data;
+      }
+      else {
+        const message = `Error cargando empleados`
+        this.alertService.showAlert(message, 'error'); 
+      }
+    },
+    (error) => {
+      const message = `Error cargando empleados: "${error}"`
       this.alertService.showAlert(message, 'error'); 
     })
   }  
@@ -183,6 +206,7 @@ export class BeneficiaryFormComponent implements OnInit {
   private prepareBeneficiaryDTO(): BeneficiaryDTO {
     const employeeRequest: BeneficiaryDTO = {
       id: 0,
+      employeeId: this.selectEmployeeId,
       countryId: this.selectCountryId, 
       participationPercentaje: this.participationPercentaje,
       name: this.name,
@@ -191,8 +215,7 @@ export class BeneficiaryFormComponent implements OnInit {
       curp: this.curp,
       ssn: this.ssn,
       phoneNumber: this.phoneNumber,
-      countryName: '',
-      employeeId: 0,
+      countryName: '', 
       employeeName: '',
       employeeNumber: 0
     }
@@ -201,6 +224,7 @@ export class BeneficiaryFormComponent implements OnInit {
   }
 
   public resetForm(): void {
+    this.selectEmployeeId = 0;
     this.selectCountryId = 0;
     this.name = '';
     this.lastName = '';
