@@ -8,11 +8,11 @@
 			<div id="addEdit" [class.collapsed]="isCollapsed" [class.expanded]="!isCollapsed">
 				<div class="contain-table">
 					<div class="form-container">
-						<form #employeeForm="ngForm">  
+						<form #beneficiaryForm="ngForm">  
                 
 							<div class="form-group">
-								<label class="labelText">Empleado:</label> 
-								<input type="text" [(ngModel)]="searchEmployeeTerm" (ngModelChange)="onSearchChange()" (blur)="clearResults()" name="searchEmployeeTerm">
+								<label class="labelText" title="Autocompletar, escriba una letra">Empleado:</label> 
+								<input type="text" title="Autocompletar, escriba una letra" [(ngModel)]="searchEmployeeTerm" (ngModelChange)="onSearchChange()" (blur)="clearResults()" name="searchEmployeeTerm">
 								<ul *ngIf="employeeResults.length">
 									<li *ngFor="let employee of employeeResults" 
 										(click)="selectEmployee(employee)">{{ employee.name }} {{ employee.lastName }} - {{ employee.id }}
@@ -86,6 +86,7 @@
 								maxlength="10"
 								required
 								#curpField="ngModel"
+								appNumericInput
 								[ngClass]="{ 'inputText': true, 'ng-invalid': curpField.invalid && (curpField.dirty || curpField.touched) }">
 							</div>
 							
@@ -99,6 +100,7 @@
 								maxlength="10"
 								required
 								#ssnField="ngModel"
+								appNumericInput
 								[ngClass]="{ 'inputText': true, 'ng-invalid': ssnField.invalid && (ssnField.dirty || ssnField.touched) }">
 							</div>
 							
@@ -109,6 +111,7 @@
 								id="phoneNumber" 
 								name="phoneNumber" 
 								[(ngModel)]="phoneNumber"
+								appNumericInput
 								maxlength="10">
 							</div> 
 							
@@ -119,6 +122,7 @@
 								id="participationPercentaje" 
 								name="participationPercentaje" 
 								[(ngModel)]="participationPercentaje"
+								appPercentajeInput
 								maxlength="10">
 							</div> 
 							

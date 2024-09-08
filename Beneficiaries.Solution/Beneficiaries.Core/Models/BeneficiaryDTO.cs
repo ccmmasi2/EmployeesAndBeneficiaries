@@ -7,7 +7,7 @@ namespace Beneficiaries.Core.Models
     public class BeneficiaryDTO : BasePersonDTO
     {
         [Column("PARTICIPATIONPERCENTAJE"), Required]
-        public float ParticipationPercentaje { get; set; }
+        public int ParticipationPercentaje { get; set; }
 
         [ForeignKey("EMPLOYEES")]
         public Int64 EmployeeId { get; set; }

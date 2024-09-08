@@ -8,13 +8,17 @@ import { FormsModule } from '@angular/forms';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { BeneficiaryListComponent } from './beneficiary-list/beneficiary-list.component';
 import { BeneficiaryFormComponent } from './beneficiary-form/beneficiary-form.component';
+import { NumericInputDirective } from '@app/rules/numeric-input.directive';
+import { PercentajeInputDirective } from '@app/rules/percentaje-input.directive';
 
 @NgModule({
   declarations: [
     EmployeeListComponent,
     EmployeeFormComponent,
     BeneficiaryListComponent,
-    BeneficiaryFormComponent
+    BeneficiaryFormComponent,
+    NumericInputDirective,
+    PercentajeInputDirective
   ],
   imports: [
     CommonModule,

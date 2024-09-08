@@ -8,7 +8,7 @@ export class BeneficiaryDTO {
     phoneNumber: string = '';
     countryId: number = 0;
     countryName: string = '';
-    participationPercentaje: number = 0;
+    participationPercentaje: number = 1;
     employeeId: number = 0;
     employeeNumber: number = 0;
     employeeName: string = '';

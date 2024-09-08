@@ -198,6 +198,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   public resetForm(): void {
+    this.employeeId = 0;
     this.selectCountryId = 0;
     this.name = '';
     this.lastName = '';

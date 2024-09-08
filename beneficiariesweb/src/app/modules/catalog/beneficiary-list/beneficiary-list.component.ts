@@ -17,6 +17,7 @@ export class BeneficiaryListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'employeeNumber',
+    'employeeName',
     'name',
     'lastName',
     'birthDay',
@@ -24,6 +25,7 @@ export class BeneficiaryListComponent implements OnInit {
     'ssn',
     'phoneNumber',
     'countryName',
+    'participationPercentaje',
     'actions'
   ];
   dataSource: MatTableDataSource<BeneficiaryDTO>;
@@ -55,13 +57,13 @@ export class BeneficiaryListComponent implements OnInit {
         this.length = data.totalRecords;
       },
       error: error => {
-        this.alertService.showAlert(`Error loading employees: ${error}`, 'error');
+        this.alertService.showAlert(`Error loading beneficiaries: ${error}`, 'error');
       }
     }); 
   }
 
   refreshBeneficiariesList(page: number, sizePage: number, sorting: string) {
-    this.reactiveSharedService.getEmployees(page + 1, sizePage, sorting);
+    this.reactiveSharedService.getBeneficiaries(page + 1, sizePage, sorting);
   }  
 
   pageChanged(event: PageEvent) { 

@@ -38,6 +38,7 @@
 										maxlength="10"
 										required
 										#employeeNumberField="ngModel"
+										appNumericInput
 										[ngClass]="{ 'inputText': true, 'ng-invalid': employeeNumberField.invalid && (employeeNumberField.dirty || employeeNumberField.touched) }">
 							</div>
 
@@ -89,6 +90,7 @@
 								maxlength="10"
 								required
 								#curpField="ngModel"
+								appNumericInput
 								[ngClass]="{ 'inputText': true, 'ng-invalid': curpField.invalid && (curpField.dirty || curpField.touched) }">
 							</div>
 							
@@ -102,6 +104,7 @@
 								maxlength="10"
 								required
 								#ssnField="ngModel"
+								appNumericInput
 								[ngClass]="{ 'inputText': true, 'ng-invalid': ssnField.invalid && (ssnField.dirty || ssnField.touched) }">
 							</div>
 							
@@ -112,6 +115,7 @@
 								id="phoneNumber" 
 								name="phoneNumber" 
 								[(ngModel)]="phoneNumber"
+								appNumericInput
 								maxlength="10">
 							</div> 
 							

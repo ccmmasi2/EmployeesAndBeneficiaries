@@ -124,7 +124,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
         public async Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term)
         {
             var employees = await _context.Employees
-                .FromSqlRaw("EXEC SearchEmployees @Term", new SqlParameter("@Term", term))
+                .FromSqlRaw("EXEC GetAllEmployeesByFilter @Term", new SqlParameter("@Term", term))
                 .ToListAsync();
 
             return employees;

@@ -42,7 +42,7 @@ namespace Beneficiaries.Core.Migrations
 
                     EXEC sp_executesql @Sql;
 
-                    SELECT @TotalCount = COUNT(e.ID) FROM EMPLOYEES e; 
+                    SELECT @TotalCount = COUNT(e.ID) FROM BENEFICIARIES e; 
                 END;
             ");
 
@@ -110,11 +110,12 @@ namespace Beneficiaries.Core.Migrations
                     @SSN NVARCHAR(50),
                     @PhoneNumber NVARCHAR(50),
                     @CountryId INT,
-                    @ParticipationPercentaje FLOAT
+                    @EmployeeId INT,
+                    @ParticipationPercentaje INT
                 AS
                 BEGIN
-                    INSERT INTO BENEFICIARIES (NAME, LASTNAME, BIRTHDAY, CURP, SSN, PHONENUMBER, CountryId, PARTICIPATIONPERCENTAJE)
-                    VALUES (@Name, @LastName, @BirthDay, @CURP, @SSN, @PhoneNumber, @CountryId, @ParticipationPercentaje);
+                    INSERT INTO BENEFICIARIES (NAME, LASTNAME, BIRTHDAY, CURP, SSN, PHONENUMBER, CountryId, EmployeeId, PARTICIPATIONPERCENTAJE)
+                    VALUES (@Name, @LastName, @BirthDay, @CURP, @SSN, @PhoneNumber, @CountryId, @EmployeeId, @ParticipationPercentaje);
                     SELECT SCOPE_IDENTITY() AS NewBeneficiaryId;
                 END;
             ");
@@ -269,7 +270,10 @@ namespace Beneficiaries.Core.Migrations
 
                     EXEC sp_executesql @Sql;
 
-                    SELECT @TotalCount = COUNT(e.ID) FROM EMPLOYEES e; 
+                    SELECT @TotalCount = COUNT(b.ID) 
+                        FROM BENEFICIARIES b 
+                        INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
+		                WHERE b.EmployeeId = @EmployeeId; 
 	            END; 
             "); 
 

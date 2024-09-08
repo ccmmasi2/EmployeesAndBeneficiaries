@@ -33,7 +33,7 @@ export class BeneficiaryFormComponent implements OnInit {
   phoneNumber: string = '';
   curp: string = '';
   ssn: string = '';
-  participationPercentaje: number = 0;
+  participationPercentaje: number = 1;
   activateSubmitButton: boolean = true;
   
   constructor(
@@ -217,12 +217,12 @@ export class BeneficiaryFormComponent implements OnInit {
     this.phoneNumber = '';
     this.curp = '';
     this.ssn = '';
-    this.participationPercentaje = 0;
+    this.participationPercentaje = 1;
     this.beneficiaryForm.resetForm();
   }
 
   onSearchChange(): void {
-    if (this.searchEmployeeTerm.length > 1) {
+    if (this.searchEmployeeTerm.length > 0) {
       this.apiConnectionService.getEmployeesXFilter(this.searchEmployeeTerm)
           .subscribe(results => {
               this.employeeResults = results;

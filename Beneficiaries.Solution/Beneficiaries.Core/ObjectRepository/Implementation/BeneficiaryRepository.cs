@@ -24,9 +24,9 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             var newBeneficiaryId = await _context.Database.ExecuteSqlRawAsync(@"
                 EXEC InsertBeneficiary 
                 @Name = {0}, @LastName = {1}, @BirthDay = {2}, @CURP = {3}, 
-                @SSN = {4}, @PhoneNumber = {5}, @CountryId = {6}, @ParticipationPercentaje = {7}",
+                @SSN = {4}, @PhoneNumber = {5}, @CountryId = {6}, @EmployeeId = {7}, @ParticipationPercentaje = {8}",
                 beneficiary.Name, beneficiary.LastName, beneficiary.BirthDay, beneficiary.CURP,
-                beneficiary.SSN, beneficiary.PhoneNumber, beneficiary.CountryId, beneficiary.ParticipationPercentaje);
+                beneficiary.SSN, beneficiary.PhoneNumber, beneficiary.CountryId, beneficiary.EmployeeId, beneficiary.ParticipationPercentaje);
 
             return newBeneficiaryId;
         }
@@ -95,7 +95,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                                 CURP = reader.IsDBNull(reader.GetOrdinal("CURP")) ? null : reader.GetString(reader.GetOrdinal("CURP")),
                                 SSN = reader.IsDBNull(reader.GetOrdinal("SSN")) ? null : reader.GetString(reader.GetOrdinal("SSN")),
                                 PhoneNumber = reader.GetString(reader.GetOrdinal("PHONENUMBER")),
-                                ParticipationPercentaje = reader.GetInt64(reader.GetOrdinal("PARTICIPATIONPERCENTAJE")),
+                                ParticipationPercentaje = reader.GetInt32(reader.GetOrdinal("PARTICIPATIONPERCENTAJE")),
                                 EmployeeName = reader.IsDBNull(reader.GetOrdinal("EmployeeName")) ? null : reader.GetString(reader.GetOrdinal("EmployeeName")),
                                 CountryId = reader.GetInt32(reader.GetOrdinal("CountryId")),
                                 CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName"))
@@ -112,9 +112,10 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
 
         public async Task<BeneficiaryDTO> ObtXId(Int64 id)
         {
-            var beneficiary = await _context.Beneficiaries
+            var beneficiary = _context.Beneficiaries
             .FromSqlRaw("EXEC GetBeneficiaryById @Id = {0}", id)
-            .FirstOrDefaultAsync();
+            .AsEnumerable()
+            .FirstOrDefault();
 
             return beneficiary;
         }
@@ -164,7 +165,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                                 CURP = reader.IsDBNull(reader.GetOrdinal("CURP")) ? null : reader.GetString(reader.GetOrdinal("CURP")),
                                 SSN = reader.IsDBNull(reader.GetOrdinal("SSN")) ? null : reader.GetString(reader.GetOrdinal("SSN")),
                                 PhoneNumber = reader.GetString(reader.GetOrdinal("PHONENUMBER")),
-                                ParticipationPercentaje = reader.GetInt64(reader.GetOrdinal("PARTICIPATIONPERCENTAJE")),
+                                ParticipationPercentaje = reader.GetInt32(reader.GetOrdinal("PARTICIPATIONPERCENTAJE")),
                                 EmployeeId = reader.GetInt64(reader.GetOrdinal("EmployeeId")),
                                 EmployeeName = reader.IsDBNull(reader.GetOrdinal("EmployeeName")) ? null : reader.GetString(reader.GetOrdinal("EmployeeName")),
                                 CountryId = reader.GetInt32(reader.GetOrdinal("CountryId")),
