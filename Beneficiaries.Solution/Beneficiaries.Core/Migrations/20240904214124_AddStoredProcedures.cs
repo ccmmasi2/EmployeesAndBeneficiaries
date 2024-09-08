@@ -32,10 +32,10 @@ namespace Beneficiaries.Core.Migrations
                             c.NAME CountryName, 
                             b.PARTICIPATIONPERCENTAJE,
                             b.EmployeeId, 
-                            e.Name + ' ' + e.Lastname EmployeeName
+                            e.NAME + '' '' + e.LASTNAME EmployeeName
                         FROM BENEFICIARIES b
                         INNER JOIN COUNTRIES c ON b.CountryId = c.ID
-                        INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
+                        INNER JOIN EMPLOYEES e ON b.EmployeeId = e.ID
                         ORDER BY ' + CAST(@Sorting AS NVARCHAR) + ' 
                         OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
                         FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
@@ -206,7 +206,7 @@ namespace Beneficiaries.Core.Migrations
                         b.PHONENUMBER, 
                         b.CountryId, 
                         b.PARTICIPATIONPERCENTAJE,
-                        b.EmployeeId, 
+                        b.EmployeeId
                     FROM BENEFICIARIES b
                     WHERE b.ID = @Id;
                 END; 
@@ -258,7 +258,7 @@ namespace Beneficiaries.Core.Migrations
                             c.NAME CountryName,  
 			                b.PARTICIPATIONPERCENTAJE,
                             b.EmployeeId, 
-                            e.Name + ' ' + e.Lastname EmployeeName
+                            e.Name + '' '' + e.Lastname EmployeeName
 		                FROM BENEFICIARIES b
 		                INNER JOIN COUNTRIES c ON b.CountryId = c.ID
                         INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
