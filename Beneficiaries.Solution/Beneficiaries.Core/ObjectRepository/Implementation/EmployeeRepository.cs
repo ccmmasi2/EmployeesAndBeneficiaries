@@ -5,6 +5,7 @@ using Beneficiaries.Core.Utilities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Drawing.Printing;
 
 namespace Beneficiaries.Core.ObjectRepository.Implementation
 {
@@ -118,6 +119,13 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             .FirstOrDefault();
 
             return employee;
-        } 
+        }
+
+        public async Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term)
+        {
+            return await _context.Employees
+                .Where(e => e.Name.Contains(term) || e.EmployeeNumber.ToString().Contains(term))
+                .ToListAsync();
+        }
     }
 }

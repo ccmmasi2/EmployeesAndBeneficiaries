@@ -378,3 +378,28 @@ a:hover {
 #addEdit.expanded {
   max-height: 1000px; /* Ajusta este valor según el tamaño del contenido */
 }
+
+.form-group ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  position: absolute;
+  width: 100%;
+  z-index: 1000; /* Asegúrate de que la lista esté sobre otros elementos */
+}
+
+.form-group li {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-group li:last-child {
+  border-bottom: none;
+}
+
+.form-group li:hover {
+  background-color: #f0f0f0;
+}

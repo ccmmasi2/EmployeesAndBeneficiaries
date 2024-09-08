@@ -94,5 +94,18 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
                 throw;
             }
         }
+
+        public async Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term)
+        {
+            try
+            {
+                return await _employeeRepository.ObtAllXFilter(term);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving all employees: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

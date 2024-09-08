@@ -225,4 +225,14 @@ export class ApiConnectionService {
       })
     );
   } 
+
+  getEmployeesXFilter(searchTerm: string): Observable<EmployeeDTO[]> {
+    const url = `${this.baseUrl}/api/Employee/ObtAllXFilter?term=${searchTerm}`;
+    return this.http.get<EmployeeDTO[]>(url).pipe(
+      catchError(error => {
+        console.error('Error obteniendo empleados por filtro:', error);
+        return throwError(() => new Error('Error obteniendo empleados por filtro'));
+      })
+    );
+  }
 }

@@ -86,7 +86,7 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public object GetById(Int64 id)
+        public object ObtXId(Int64 id)
         {
             if (id == 0)
             {
@@ -96,6 +96,17 @@ namespace Beneficiaries.API.Controllers
             object Item = _employeeService.ObtXId(id);
 
             return Item;
+        }
+
+        [HttpGet("ObtAllXFilter")]
+        public async Task<IActionResult> ObtAllXFilter(string term)
+        {
+            var result = await _employeeService.ObtAllXFilter(term);
+            if (result.Any())
+            {
+                return Ok(result);
+            }
+            return NotFound("No se encontraron empleados con el filtro");
         }
     }
 }

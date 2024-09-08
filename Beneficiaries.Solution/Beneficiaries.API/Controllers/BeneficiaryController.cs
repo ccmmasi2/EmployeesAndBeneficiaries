@@ -74,7 +74,7 @@ namespace Beneficiaries.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public object GetById(Int64 id)
+        public object ObtXId(Int64 id)
         {
             if (id == 0)
             {

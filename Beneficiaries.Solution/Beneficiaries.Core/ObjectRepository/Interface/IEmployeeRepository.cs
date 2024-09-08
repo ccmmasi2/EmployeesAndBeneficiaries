@@ -16,5 +16,7 @@ namespace Beneficiaries.Core.ObjectRepository.Interface
         Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "");
 
         Task<EmployeeDTO> ObtXId(Int64 id);
+
+        Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term);
     }
 }

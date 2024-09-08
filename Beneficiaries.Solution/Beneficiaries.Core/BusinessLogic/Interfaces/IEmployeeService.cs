@@ -16,5 +16,7 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
         Task<PagedList<EmployeeReport>> ObtAllDAO(int page = 1, int sizePage = 10, string sorting = "Id");
 
         Task<EmployeeDTO> ObtXId(Int64 id);
+
+        Task<IEnumerable<EmployeeDTO>> ObtAllXFilter(string term);
     }
 }

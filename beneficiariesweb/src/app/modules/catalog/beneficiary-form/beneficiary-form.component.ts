@@ -21,10 +21,11 @@ export class BeneficiaryFormComponent implements OnInit {
   @ViewChild('beneficiaryForm') beneficiaryForm!: NgForm; 
   cartItems: BeneficiaryDTO[] = []; 
 
+  searchEmployeeTerm: string = '';
   beneficiaryId: number = 0;
-  selectCountryId: number = 0;
   selectEmployeeId: number = 0;
-  employeeIdOptions: EmployeeDTO[] = [];
+  selectCountryId: number = 0;
+  employeeResults: EmployeeDTO[] = []; 
   countryIdOptions: CountryDTO[] = [];
   name: string = '';
   lastName: string = '';
@@ -63,7 +64,6 @@ export class BeneficiaryFormComponent implements OnInit {
       beneficiary.birthDay = new Date(beneficiary.birthDay).toISOString().split('T')[0];  
       this.beneficiaryForm.reset(beneficiary);
       this.selectCountryId = beneficiary.countryId;
-      this.selectEmployeeId = beneficiary.employeeId;
       this.isCollapsed = false; 
     });
   }  
@@ -113,22 +113,7 @@ export class BeneficiaryFormComponent implements OnInit {
 
     const page = 1;  
     const sizePage = 1000;  
-    const sorting = '';
-    
-    this.apiConnectionService.getEmployees(page, sizePage, sorting).subscribe(
-      (response) => {
-      if(response){
-        this.employeeIdOptions = response.data;
-      }
-      else {
-        const message = `Error cargando empleados`
-        this.alertService.showAlert(message, 'error'); 
-      }
-    },
-    (error) => {
-      const message = `Error cargando empleados: "${error}"`
-      this.alertService.showAlert(message, 'error'); 
-    })
+    const sorting = ''; 
   }  
 
   validateAge(birthDay: Date | string): boolean {
@@ -234,5 +219,31 @@ export class BeneficiaryFormComponent implements OnInit {
     this.ssn = '';
     this.participationPercentaje = 0;
     this.beneficiaryForm.resetForm();
+  }
+
+  onSearchChange(): void {
+    if (this.searchEmployeeTerm.length > 1) {
+      this.apiConnectionService.getEmployeesXFilter(this.searchEmployeeTerm)
+          .subscribe(results => {
+              this.employeeResults = results;
+          }, error => {
+              console.error('Failed to load employees:', error);
+              this.alertService.showAlert('Error cargando empleados: ' + error.message, 'error');
+          });
+    } else {
+      this.employeeResults = [];  
+    }
+  }
+
+  selectEmployee(employee: EmployeeDTO): void {
+    this.selectEmployeeId = employee.id;
+    this.searchEmployeeTerm = `${employee.name} (${employee.id})`;   
+    this.employeeResults = [];   
+  }
+
+  clearResults(): void {
+    setTimeout(() => {   
+        this.employeeResults = [];
+    }, 200);
   }
 }

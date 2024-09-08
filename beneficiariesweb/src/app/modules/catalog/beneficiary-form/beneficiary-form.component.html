@@ -11,22 +11,14 @@
 						<form #employeeForm="ngForm">  
                 
 							<div class="form-group">
-								<label class="labelText" for="selectEmployeeId">Empleado:</label> 
-								<div class="select-container-intern">
-									<div class="select-container">
-									  <select id="selectEmployeeId" 
-											  name="selectEmployeeId"
-											  placeholder="EmpleadoId" 
-											  [(ngModel)]="selectEmployeeId" 
-											  required
-											  #employeeIdField="ngModel"
-											  [ngClass]="{ 'select-container': true, 'ng-invalid': employeeIdField.invalid && (employeeIdField.dirty || employeeIdField.touched) }">
-										<option *ngFor="let option of employeeIdOptions" 
-												[value]="option.id">{{ option.name }}</option>
-									  </select>
-								  </div>
-								</div>
-							</div>  
+								<label class="labelText">Empleado:</label> 
+								<input type="text" [(ngModel)]="searchEmployeeTerm" (ngModelChange)="onSearchChange()" (blur)="clearResults()" name="searchEmployeeTerm">
+								<ul *ngIf="employeeResults.length">
+									<li *ngFor="let employee of employeeResults" 
+										(click)="selectEmployee(employee)">{{ employee.name }} {{ employee.lastName }} - {{ employee.id }}
+									</li>
+								</ul>
+							</div> 
                 
 							<div class="form-group">
 								<label class="labelText" for="selectCountryId">Nacionalidad:</label> 
