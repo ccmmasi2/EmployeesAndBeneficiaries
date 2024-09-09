@@ -206,6 +206,7 @@ export class EmployeeFormComponent implements OnInit {
     this.curp = '';
     this.ssn = '';
     this.employeeNumber = 0;
+    this.activateSubmitButton = true;      
     this.employeeForm.resetForm();
   }
 }

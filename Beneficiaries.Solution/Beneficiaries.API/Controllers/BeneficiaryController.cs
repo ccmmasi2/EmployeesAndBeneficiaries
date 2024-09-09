@@ -2,6 +2,8 @@
 using Beneficiaries.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
+using System;
 
 namespace Beneficiaries.API.Controllers
 {
@@ -29,8 +31,20 @@ namespace Beneficiaries.API.Controllers
                 return BadRequest("No se enviaron datos");
             }
 
-            var newBeneficiaryId = await _beneficiaryService.Add(beneficiary);
-            return Ok(newBeneficiaryId);
+            try
+            {
+                var newBeneficiaryId = await _beneficiaryService.Add(beneficiary);
+                return Ok(newBeneficiaryId);
+            }
+            catch (SqlException ex) when (ex.Number == 50000 || ex.Number == 2627)
+            {
+                return Conflict("La suma total de los porcentajes de participación no puede exceder el 100.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error inserting beneficiary: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut("Update")]

@@ -222,6 +222,7 @@ export class BeneficiaryFormComponent implements OnInit {
     this.curp = '';
     this.ssn = '';
     this.participationPercentaje = 1;
+    this.activateSubmitButton = true;      
     this.beneficiaryForm.resetForm();
   }
 

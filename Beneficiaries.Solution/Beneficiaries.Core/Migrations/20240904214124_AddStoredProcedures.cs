@@ -115,9 +115,21 @@ namespace Beneficiaries.Core.Migrations
                     @ParticipationPercentaje INT
                 AS
                 BEGIN
-                    INSERT INTO BENEFICIARIES (NAME, LASTNAME, BIRTHDAY, CURP, SSN, PHONENUMBER, CountryId, EmployeeId, PARTICIPATIONPERCENTAJE)
-                    VALUES (@Name, @LastName, @BirthDay, @CURP, @SSN, @PhoneNumber, @CountryId, @EmployeeId, @ParticipationPercentaje);
-                    SELECT SCOPE_IDENTITY() AS NewBeneficiaryId;
+                    DECLARE @CurrentTotalPercentage INT;
+                    SELECT @CurrentTotalPercentage = ISNULL(SUM(ParticipationPercentaje), 0)
+                    FROM BENEFICIARIES
+                    WHERE EmployeeId = @EmployeeId;
+
+                    IF (@CurrentTotalPercentage + @ParticipationPercentaje > 100)
+                    BEGIN 
+                        THROW 50000, 'La suma total de los porcentajes de participación no puede exceder el 100%. Operación cancelada.', 1;
+                    END
+                    ELSE
+                    BEGIN
+                        INSERT INTO BENEFICIARIES (NAME, LASTNAME, BIRTHDAY, CURP, SSN, PHONENUMBER, CountryId, EmployeeId, PARTICIPATIONPERCENTAJE)
+                        VALUES (@Name, @LastName, @BirthDay, @CURP, @SSN, @PhoneNumber, @CountryId, @EmployeeId, @ParticipationPercentaje);
+                        SELECT SCOPE_IDENTITY() AS NewBeneficiaryId;
+                    END;
                 END;
             ");
 

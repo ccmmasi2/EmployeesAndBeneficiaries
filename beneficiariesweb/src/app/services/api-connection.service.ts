@@ -167,18 +167,28 @@ export class ApiConnectionService {
         return throwError(() => new Error('Error obteniendo empleado'));
       })
     );
-  } 
+  }  
 
-  /* */
-  createBeneficiary(beneficiaryRequest: BeneficiaryDTO): Observable<BeneficiaryDTO> {
-    const url = `${this.baseUrl}/api/Beneficiary/Add`;
-    return this.http.post<BeneficiaryDTO>(url, beneficiaryRequest).pipe(
-        catchError((error: any) => {
-          console.error('Error creando beneficiario:', error);
-          throw error;  
-        })
-      )
-  } 
+ createBeneficiary(beneficiaryRequest: BeneficiaryDTO): Observable<BeneficiaryDTO> {
+  const url = `${this.baseUrl}/api/Beneficiary/Add`;
+  return this.http.post<BeneficiaryDTO>(url, beneficiaryRequest).pipe(
+    catchError((error: HttpErrorResponse) => {
+      let errorMessage = 'Error creando beneficiario';
+      if (error.error instanceof ErrorEvent) {
+        console.error('An error occurred:', error.error.message);
+      } else {
+        console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+        if (error.status === 409) {
+          errorMessage = 'La suma total de los porcentajes de participación no puede exceder el 100.';
+        } else {
+          errorMessage = `Error del servidor al crear beneficiario: ${error.message}`;
+        }
+      }
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+}
+
 
   updateBeneficiary(beneficiaryRequest: BeneficiaryDTO): Observable<string> {
     return this.http
