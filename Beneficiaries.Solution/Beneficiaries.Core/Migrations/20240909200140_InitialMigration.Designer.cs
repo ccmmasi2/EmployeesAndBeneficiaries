@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beneficiaries.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240908184259_InitialMigration")]
+    [Migration("20240909200140_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,8 +60,8 @@ namespace Beneficiaries.Core.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("NAME");
 
-                    b.Property<float>("ParticipationPercentaje")
-                        .HasColumnType("real")
+                    b.Property<int>("ParticipationPercentaje")
+                        .HasColumnType("int")
                         .HasColumnName("PARTICIPATIONPERCENTAJE");
 
                     b.Property<string>("PhoneNumber")

@@ -53,7 +53,7 @@ namespace Beneficiaries.Core.Migrations
                 {
                     ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PARTICIPATIONPERCENTAJE = table.Column<float>(type: "real", nullable: false),
+                    PARTICIPATIONPERCENTAJE = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: false),
                     NAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LASTNAME = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

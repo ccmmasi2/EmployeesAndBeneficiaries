@@ -70,7 +70,7 @@ export class BeneficiaryFormComponent implements OnInit {
     this.formByEmployee = false;
     this.employeeURLInformation = '';
     this.isSearchEmployeeTermDisabled = false;
-
+    
     this.route.params.subscribe(params => {
       if(params["employeeId"]) {
         this.loadFormWithEmployeeUrl(params["employeeId"]);
@@ -78,20 +78,30 @@ export class BeneficiaryFormComponent implements OnInit {
     });
     
     this.loadDataOptions(); 
-  }  
+  }   
   
   loadFormWithEmployeeUrl(employeeId: number){
     this.formByEmployee = true;
     this.employeeIdByURL = employeeId;
     
     this.apiConnectionService.getEmployeeXId(this.employeeIdByURL)
-    .subscribe((employee) => { 
-      this.employeeURLInformation = 'del Empleado: ' + employee.name + ' ' + employee.lastName;
-      this.selectEmployee(employee);
-      this.isSearchEmployeeTermDisabled = true;
-      this.changeDetectorRef.detectChanges(); 
+    .subscribe({
+      next: (employee) => {
+        if (employee) {
+          this.employeeURLInformation = 'del Empleado: ' + employee.name + ' ' + employee.lastName;
+          this.selectEmployee(employee);
+          this.isSearchEmployeeTermDisabled = true;
+        } else {
+          this.employeeURLInformation = 'Empleado no encontrado';
+        }
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (error) => {
+        console.error('Failed to load employee:', error);
+        this.employeeURLInformation = 'Error al cargar datos del empleado';
+      }
     });
-  } 
+  }
   
   loadBeneficiary(beneficiaryId: number){
     this.apiConnectionService.getBeneficiaryXId(beneficiaryId)
@@ -251,8 +261,14 @@ export class BeneficiaryFormComponent implements OnInit {
   }
   
   public resetForm(): void {
+    if(this.employeeIdByURL && this.employeeIdByURL > 0) {
+      this.loadFormWithEmployeeUrl(this.employeeIdByURL);
+    }
+    else {
+      this.selectEmployeeId = 0;
+    }
+
     this.beneficiaryId = 0;
-    this.selectEmployeeId = 0;
     this.selectCountryId = 0;
     this.name = '';
     this.lastName = '';

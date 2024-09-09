@@ -286,9 +286,7 @@ namespace Beneficiaries.Core.Migrations
                     SELECT @TotalCount = COUNT(b.ID) 
                         FROM BENEFICIARIES b 
                         INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
-		                WHERE b.EmployeeId = @EmployeeId; 
-
-                    EXEC sp_executesql @Sql, N'@EmployeeId BIGINT, @TotalCount INT OUTPUT', @EmployeeId=@EmployeeId, @TotalCount=@TotalCount OUTPUT;
+		                WHERE b.EmployeeId = @EmployeeId;  
 
 	            END; 
             "); 

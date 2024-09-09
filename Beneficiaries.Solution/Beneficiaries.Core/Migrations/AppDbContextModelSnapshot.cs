@@ -58,8 +58,8 @@ namespace Beneficiaries.Core.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("NAME");
 
-                    b.Property<float>("ParticipationPercentaje")
-                        .HasColumnType("real")
+                    b.Property<int>("ParticipationPercentaje")
+                        .HasColumnType("int")
                         .HasColumnName("PARTICIPATIONPERCENTAJE");
 
                     b.Property<string>("PhoneNumber")
