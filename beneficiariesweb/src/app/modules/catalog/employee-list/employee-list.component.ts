@@ -82,7 +82,7 @@ export class EmployeeListComponent implements OnInit {
     const offsetX = 240;
     const offsety = 35;
     this.dialog.open(ActionsDialogComponent, {
-      data: { employeeId: employeeObject.id },
+      data: { dataId: employeeObject.id },
       position: {
         top: event.clientY - offsety + 'px',
         left: event.clientX - offsetX + 'px',

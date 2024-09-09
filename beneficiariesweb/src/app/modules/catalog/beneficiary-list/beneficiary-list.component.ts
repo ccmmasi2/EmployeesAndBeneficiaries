@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { ActionsDialogComponent } from '@app/modules/shared/actions-dialog/actions-dialog.component';
 import { AlertService } from '@app/services/alert-service.service';
@@ -14,6 +15,9 @@ import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 })
 
 export class BeneficiaryListComponent implements OnInit {
+  
+  employeeIdByURL: number = 0;
+
   displayedColumns: string[] = [
     'id',
     'employeeId',
@@ -42,13 +46,23 @@ export class BeneficiaryListComponent implements OnInit {
     public reactiveSharedService: ReactiveSharedService,
     public _MatPaginatorIntl: MatPaginatorIntl,
     private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) {
     this.dataSource = new MatTableDataSource<BeneficiaryDTO>();
    }
 
   ngOnInit(): void {
-    this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
-    this.subscribeToData();
+    this.route.params.subscribe(params => {
+      if(params["employeeId"]) { 
+        this.employeeIdByURL = params["employeeId"];
+        this.refreshBeneficiariesListByEmployeeId(params["employeeId"], this.pageIndex, this.pageSizeLength, this.sorting);
+        this.subscribeToData();
+      } 
+      else {
+        this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
+        this.subscribeToData();
+      }
+    });
   }
  
   subscribeToData(): void { 
@@ -63,6 +77,10 @@ export class BeneficiaryListComponent implements OnInit {
     }); 
   }
 
+  refreshBeneficiariesListByEmployeeId(employeeId: number, page: number, sizePage: number, sorting: string) {
+    this.reactiveSharedService.getBeneficiariesByEmployeeId(employeeId, page + 1, sizePage, sorting);
+  } 
+
   refreshBeneficiariesList(page: number, sizePage: number, sorting: string) {
     this.reactiveSharedService.getBeneficiaries(page + 1, sizePage, sorting);
   }  
@@ -70,13 +88,25 @@ export class BeneficiaryListComponent implements OnInit {
   pageChanged(event: PageEvent) { 
     this.pageIndex = event.pageIndex;
     this.pageSizeLength = event.pageSize; 
-    this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
+
+    if(this.employeeIdByURL && this.employeeIdByURL > 0){
+      this.refreshBeneficiariesListByEmployeeId(this.employeeIdByURL, this.pageIndex, this.pageSizeLength, this.sorting);
+    }
+    else{
+      this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
+    }
   }
   
   onSortChange(event: Sort): void {
     if (event.active && event.direction) {
       this.sorting = `${event.active} ${event.direction}`;
-      this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
+      
+      if(this.employeeIdByURL && this.employeeIdByURL > 0){
+        this.refreshBeneficiariesListByEmployeeId(this.employeeIdByURL, this.pageIndex, this.pageSizeLength, this.sorting);
+      }
+      else{
+        this.refreshBeneficiariesList(this.pageIndex, this.pageSizeLength, this.sorting);
+      }
     }
   } 
 

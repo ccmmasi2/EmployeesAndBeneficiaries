@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { BeneficiaryDTO } from '@app/models/beneficiary.model';
 import { CountryDTO } from '@app/models/country.model';
 import { EmployeeDTO } from '@app/models/employee.model';
@@ -17,10 +18,15 @@ import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 
 export class BeneficiaryFormComponent implements OnInit {
   isCollapsed: boolean = true;
- 
+  
   @ViewChild('beneficiaryForm') beneficiaryForm!: NgForm; 
   cartItems: BeneficiaryDTO[] = []; 
-
+  
+  formByEmployee: boolean = false;
+  employeeIdByURL: number = 0;
+  employeeURLInformation: string = '';
+  isSearchEmployeeTermDisabled: boolean = false;
+  
   searchEmployeeTerm: string = '';
   beneficiaryId: number = 0;
   selectEmployeeId: number = 0;
@@ -41,7 +47,9 @@ export class BeneficiaryFormComponent implements OnInit {
     private alertService: AlertService,
     public reactiveSharedService: ReactiveSharedService,
     private eventService: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.eventService.watchButtonClick.subscribe((beneficiaryId: number) => {
       this.loadBeneficiary(beneficiaryId);
@@ -57,7 +65,34 @@ export class BeneficiaryFormComponent implements OnInit {
       this.deleteBeneficiary(beneficiaryId);
     });
   }
+  
+  ngOnInit(): void {
+    this.formByEmployee = false;
+    this.employeeURLInformation = '';
+    this.isSearchEmployeeTermDisabled = false;
 
+    this.route.params.subscribe(params => {
+      if(params["employeeId"]) {
+        this.loadFormWithEmployeeUrl(params["employeeId"]);
+      } 
+    });
+    
+    this.loadDataOptions(); 
+  }  
+  
+  loadFormWithEmployeeUrl(employeeId: number){
+    this.formByEmployee = true;
+    this.employeeIdByURL = employeeId;
+    
+    this.apiConnectionService.getEmployeeXId(this.employeeIdByURL)
+    .subscribe((employee) => { 
+      this.employeeURLInformation = 'del Empleado: ' + employee.name + ' ' + employee.lastName;
+      this.selectEmployee(employee);
+      this.isSearchEmployeeTermDisabled = true;
+      this.changeDetectorRef.detectChanges(); 
+    });
+  } 
+  
   loadBeneficiary(beneficiaryId: number){
     this.apiConnectionService.getBeneficiaryXId(beneficiaryId)
     .subscribe((beneficiary) => { 
@@ -65,7 +100,10 @@ export class BeneficiaryFormComponent implements OnInit {
       this.beneficiaryForm.reset(beneficiary);
       this.selectCountryId = beneficiary.countryId;
       this.isCollapsed = false; 
-      this.loadEmployee(beneficiary.employeeId);
+      
+      if(this.employeeIdByURL && this.employeeIdByURL > 0) {
+        this.loadEmployee(beneficiary.employeeId);
+      }
     });
   } 
   
@@ -75,12 +113,12 @@ export class BeneficiaryFormComponent implements OnInit {
       this.selectEmployee(employee);
     });
   }
-
+  
   deleteBeneficiary(beneficiaryId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px'
     });
-  
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.apiConnectionService.deleteBeneficiary(beneficiaryId).subscribe(
@@ -95,15 +133,11 @@ export class BeneficiaryFormComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit(): void {
-    this.loadDataOptions(); 
-  }
-
+  
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;   
   }
-
+  
   loadDataOptions(): void {
     this.apiConnectionService.getCountries().subscribe((info) => {
       if(info){
@@ -119,22 +153,22 @@ export class BeneficiaryFormComponent implements OnInit {
       this.alertService.showAlert(message, 'error'); 
     }) 
   }  
-
+  
   validateAge(birthDay: Date | string): boolean {
     if (typeof birthDay === 'string') {
-        birthDay = new Date(birthDay);
+      birthDay = new Date(birthDay);
     }
     
     if (!(birthDay instanceof Date) || isNaN(birthDay.getTime())) {
-        return false;
+      return false;
     }
-
+    
     const currentDate = new Date();
     const diff = currentDate.getTime() - birthDay.getTime();
     const age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
     return age >= 18;
   }
-
+  
   submitForm(): void {
     if (this.beneficiaryForm.valid) {
       if (!this.validateAge(this.birthDay)) {
@@ -147,7 +181,7 @@ export class BeneficiaryFormComponent implements OnInit {
         if(this.beneficiaryId > 0) {
           const beneficiaryRequest: BeneficiaryDTO = this.prepareBeneficiaryDTO();
           beneficiaryRequest.id = this.beneficiaryId;
-
+          
           this.apiConnectionService.updateBeneficiary(beneficiaryRequest).subscribe({
             next: (message) => {
               this.alertService.showAlert(message, 'success');
@@ -164,7 +198,7 @@ export class BeneficiaryFormComponent implements OnInit {
         }
         else {
           const beneficiaryRequest: BeneficiaryDTO = this.prepareBeneficiaryDTO();
-  
+          
           this.apiConnectionService.createBeneficiary(beneficiaryRequest).subscribe({
             next: () => {
               const message = 'Beneficiario creado';
@@ -188,7 +222,12 @@ export class BeneficiaryFormComponent implements OnInit {
   }
   
   refreshBeneficiaryList() {
-    this.reactiveSharedService.getBeneficiaries();
+    if(this.employeeIdByURL && this.employeeIdByURL > 0) {
+      this.reactiveSharedService.getBeneficiariesByEmployeeId(this.employeeIdByURL);
+    }
+    else {
+      this.reactiveSharedService.getBeneficiaries();
+    }
   } 
   
   private prepareBeneficiaryDTO(): BeneficiaryDTO {
@@ -207,10 +246,10 @@ export class BeneficiaryFormComponent implements OnInit {
       employeeName: '',
       employeeNumber: 0
     }
-
+    
     return employeeRequest;
   }
-
+  
   public resetForm(): void {
     this.beneficiaryId = 0;
     this.selectEmployeeId = 0;
@@ -225,48 +264,48 @@ export class BeneficiaryFormComponent implements OnInit {
     this.activateSubmitButton = true;      
     this.beneficiaryForm.resetForm();
   }
-
+  
   onSearchChange(): void {
     if (this.searchEmployeeTerm && this.searchEmployeeTerm.length > 0) {
       this.apiConnectionService.getEmployeesXFilter(this.searchEmployeeTerm)
-          .subscribe(results => {
-              this.employeeResults = results;
-          }, error => {
-              console.error('Failed to load employees:', error);
-              this.alertService.showAlert('Error cargando empleados: ' + error.message, 'error');
-          });
+      .subscribe(results => {
+        this.employeeResults = results;
+      }, error => {
+        console.error('Failed to load employees:', error);
+        this.alertService.showAlert('Error cargando empleados: ' + error.message, 'error');
+      });
     } else {
       this.employeeResults = [];  
     }
   }
-
+  
   selectEmployee(employee: EmployeeDTO): void {
     this.selectEmployeeId = employee.id;
     this.searchEmployeeTerm = `${employee.name} (${employee.id})`;   
     this.employeeResults = [];   
   }
-
+  
   clearResults(): void {
     setTimeout(() => {   
-        this.employeeResults = [];
+      this.employeeResults = [];
     }, 200);
   }
-
+  
   validateParticipationTotal(): void {
     if (this.selectEmployeeId) {
       this.apiConnectionService.validateTotalParticipation(this.selectEmployeeId, this.participationPercentaje)
-        .subscribe({
-          next: (isValid) => {
-            if (!isValid) {
-              this.alertService.showAlert('La suma total de los porcentajes de participación excede el 100%', 'error');
-              this.isCollapsed = true;
-            }
-          },
-          error: (error) => {
-            console.error('Error al validar la suma de participación', error);
-            this.alertService.showAlert('Error al validar la suma de participación', 'error');
+      .subscribe({
+        next: (isValid) => {
+          if (!isValid) {
+            this.alertService.showAlert('La suma total de los porcentajes de participación excede el 100%', 'error');
+            this.isCollapsed = true;
           }
-        });
+        },
+        error: (error) => {
+          console.error('Error al validar la suma de participación', error);
+          this.alertService.showAlert('Error al validar la suma de participación', 'error');
+        }
+      });
     }
   }
 }

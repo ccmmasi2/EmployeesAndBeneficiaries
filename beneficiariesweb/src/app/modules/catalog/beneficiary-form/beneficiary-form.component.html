@@ -2,7 +2,7 @@
 <div class="mat-app-backgroud basic-container">
 	<div class="contain-main">
 		<div class="contain-head">
-			<div class="contain-title button" (click)="toggleCollapse()">Click para ver, añadir o modificar beneficiarios</div> 
+			<div class="contain-title button" (click)="toggleCollapse()">Click para ver, añadir o modificar beneficiarios {{ employeeURLInformation }}</div> 
 		</div>
 		<div class="contain-body">
 			<div id="addEdit" [class.collapsed]="isCollapsed" [class.expanded]="!isCollapsed">
@@ -12,7 +12,9 @@
                 
 							<div class="form-group">
 								<label class="labelText" title="Autocompletar, escriba una letra">Empleado:</label> 
-								<input type="text" title="Autocompletar, escriba una letra" [(ngModel)]="searchEmployeeTerm" (ngModelChange)="onSearchChange()" (blur)="clearResults()" name="searchEmployeeTerm">
+								<input type="text" title="Autocompletar, escriba una letra" 
+								[(ngModel)]="searchEmployeeTerm" (ngModelChange)="onSearchChange()" 
+								(blur)="clearResults()" name="searchEmployeeTerm" [disabled]="isSearchEmployeeTermDisabled">
 								<ul *ngIf="employeeResults.length">
 									<li *ngFor="let employee of employeeResults" 
 										(click)="selectEmployee(employee)">{{ employee.name }} {{ employee.lastName }} - {{ employee.id }}

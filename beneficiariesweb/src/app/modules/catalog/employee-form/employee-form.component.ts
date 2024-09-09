@@ -8,6 +8,7 @@ import { AlertService } from '@app/services/alert-service.service';
 import { ApiConnectionService } from '@app/services/api-connection.service';
 import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 import { EventService } from '@app/services/event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-form',
@@ -37,7 +38,8 @@ export class EmployeeFormComponent implements OnInit {
     private alertService: AlertService,
     public reactiveSharedService: ReactiveSharedService,
     private eventService: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.eventService.watchButtonClick.subscribe((employeeId: number) => {
       this.loadEmployee(employeeId);
@@ -51,6 +53,9 @@ export class EmployeeFormComponent implements OnInit {
     });
     this.eventService.deleteButtonClick.subscribe((employeeId: number) => {
       this.deleteEmployee(employeeId);
+    });
+    this.eventService.watchBeneficiariesButtonClick.subscribe((employeeId: number) => {
+      this.router.navigate(['system/beneficiaries/',  { employeeId: employeeId } ]);
     });
   }
 

@@ -281,12 +281,15 @@ namespace Beneficiaries.Core.Migrations
                         OFFSET ' + CAST(@Skip AS NVARCHAR) + ' ROWS
                         FETCH NEXT ' + CAST(@SizePage AS NVARCHAR) + ' ROWS ONLY';
 
-                    EXEC sp_executesql @Sql;
+                    EXEC sp_executesql @Sql, N'@EmployeeId BIGINT', @EmployeeId=@EmployeeId;
 
                     SELECT @TotalCount = COUNT(b.ID) 
                         FROM BENEFICIARIES b 
                         INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId
 		                WHERE b.EmployeeId = @EmployeeId; 
+
+                    EXEC sp_executesql @Sql, N'@EmployeeId BIGINT, @TotalCount INT OUTPUT', @EmployeeId=@EmployeeId, @TotalCount=@TotalCount OUTPUT;
+
 	            END; 
             "); 
 

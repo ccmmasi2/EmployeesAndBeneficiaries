@@ -144,7 +144,7 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand("GetBeneficiaryByEmployeeId", connection))
+                using (SqlCommand command = new SqlCommand("GetBeneficiariesByEmployeeId", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));

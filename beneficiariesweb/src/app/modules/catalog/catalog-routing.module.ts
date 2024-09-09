@@ -15,6 +15,10 @@ const routes: Routes = [
       {
         path: 'beneficiaries',
         component: BeneficiaryFormComponent,
+      },
+      {
+        path: 'system/beneficiaries/:employeeId',
+        component: BeneficiaryFormComponent,
       }
     ],
   },
