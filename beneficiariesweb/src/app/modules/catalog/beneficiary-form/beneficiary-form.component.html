@@ -123,7 +123,8 @@
 								name="participationPercentaje" 
 								[(ngModel)]="participationPercentaje"
 								appPercentajeInput
-								maxlength="10">
+								maxlength="10"
+								(blur)="validateParticipationTotal()">
 							</div> 
 							
 						</form>

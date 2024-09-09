@@ -120,5 +120,18 @@ namespace Beneficiaries.Core.BusinessLogic.Implementation
                 throw;
             }
         }
+
+        public async Task<bool> ValidateTotalParticipation(Int64 employeeId, int newPercentage)
+        {
+            try
+            {
+                return await _beneficiaryRepository.ValidateTotalParticipation(employeeId, newPercentage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving all beneficiaries by Employee id {employeeId}: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

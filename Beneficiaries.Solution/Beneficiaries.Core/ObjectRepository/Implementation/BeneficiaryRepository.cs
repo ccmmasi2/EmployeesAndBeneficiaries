@@ -183,5 +183,13 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
             }
             return new PagedList<BeneficiaryReport>(beneficiaries, totalCount, page, sizePage); ;
         }
+        public async Task<bool> ValidateTotalParticipation(Int64 employeeId, int newPercentage)
+        {
+            var totalParticipation = await _context.Beneficiaries
+                .Where(b => b.EmployeeId == employeeId)
+                .SumAsync(b => b.ParticipationPercentaje);
+
+            return totalParticipation + newPercentage <= 100;
+        }
     }
 }

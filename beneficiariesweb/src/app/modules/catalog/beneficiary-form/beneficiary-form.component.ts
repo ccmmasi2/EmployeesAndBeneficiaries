@@ -251,4 +251,22 @@ export class BeneficiaryFormComponent implements OnInit {
         this.employeeResults = [];
     }, 200);
   }
+
+  validateParticipationTotal(): void {
+    if (this.selectEmployeeId) {
+      this.apiConnectionService.validateTotalParticipation(this.selectEmployeeId, this.participationPercentaje)
+        .subscribe({
+          next: (isValid) => {
+            if (!isValid) {
+              this.alertService.showAlert('La suma total de los porcentajes de participación excede el 100%', 'error');
+              this.isCollapsed = true;
+            }
+          },
+          error: (error) => {
+            console.error('Error al validar la suma de participación', error);
+            this.alertService.showAlert('Error al validar la suma de participación', 'error');
+          }
+        });
+    }
+  }
 }

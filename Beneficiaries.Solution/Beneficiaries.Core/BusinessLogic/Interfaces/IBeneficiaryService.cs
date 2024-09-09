@@ -20,5 +20,7 @@ namespace Beneficiaries.Core.BusinessLogic.Interfaces
         Task<PagedList<BeneficiaryDTO>> ObtAllXEmployeeId(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id");
 
         Task<PagedList<BeneficiaryReport>> ObtAllXEmployeeIdDAO(Int64 employeeId, int page = 1, int sizePage = 10, string sorting = "Id");
+
+        Task<bool> ValidateTotalParticipation(Int64 employeeId, int newPercentage);
     }
 }

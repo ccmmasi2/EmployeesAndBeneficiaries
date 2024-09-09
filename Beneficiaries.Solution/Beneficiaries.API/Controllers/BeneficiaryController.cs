@@ -1,9 +1,7 @@
 ﻿using Beneficiaries.Core.BusinessLogic.Interfaces;
 using Beneficiaries.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
-using System;
 
 namespace Beneficiaries.API.Controllers
 {
@@ -107,6 +105,21 @@ namespace Beneficiaries.API.Controllers
             _logger.LogInformation("Get list x Employee Id");
             var LItems = await _beneficiaryService.ObtAllXEmployeeIdDAO(employeeId, page, sizePage, sorting);
             return Ok(LItems);
+        }
+
+        [HttpGet("ValidateParticipation/{employeeId}/{newPercentage}")]
+        public async Task<IActionResult> ValidateTotalParticipation([FromRoute] Int64 employeeId, [FromRoute] int newPercentage)
+        {
+            try
+            {
+                var isValid = await _beneficiaryService.ValidateTotalParticipation(employeeId, newPercentage);
+                return Ok(isValid);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error validating total participation: {ex}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
