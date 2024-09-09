@@ -5,9 +5,10 @@ import { Directive, HostListener, ElementRef } from '@angular/core';
 })
 export class NumericInputDirective {
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef<HTMLInputElement>) { }
 
   @HostListener('input', ['$event']) onInput(event: Event): void {
+    event.stopPropagation(); 
     const input = event.target as HTMLInputElement;
     let value = input.value;
 
@@ -18,7 +19,5 @@ export class NumericInputDirective {
     }
 
     input.value = value;
-
-    input.dispatchEvent(new Event('input'));
   }
 }

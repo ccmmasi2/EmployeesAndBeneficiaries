@@ -16,6 +16,7 @@ import { ReactiveSharedService } from '@app/services/reactive-shared.service';
 export class BeneficiaryListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
+    'employeeId',
     'employeeNumber',
     'employeeName',
     'name',

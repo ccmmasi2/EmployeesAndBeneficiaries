@@ -32,7 +32,8 @@ namespace Beneficiaries.Core.Migrations
                             c.NAME CountryName, 
                             b.PARTICIPATIONPERCENTAJE,
                             b.EmployeeId, 
-                            e.NAME + '' '' + e.LASTNAME EmployeeName
+                            e.NAME + '' '' + e.LASTNAME EmployeeName,
+                            e.EmployeeNumber
                         FROM BENEFICIARIES b
                         INNER JOIN COUNTRIES c ON b.CountryId = c.ID
                         INNER JOIN EMPLOYEES e ON b.EmployeeId = e.ID
@@ -248,7 +249,6 @@ namespace Beneficiaries.Core.Migrations
                     SET @Sql = '
 		                SELECT 
 			                b.ID, 
-			                b.EmployeeId,
 			                b.NAME, 
 			                b.LASTNAME, 
 			                b.BIRTHDAY, 
@@ -259,7 +259,8 @@ namespace Beneficiaries.Core.Migrations
                             c.NAME CountryName,  
 			                b.PARTICIPATIONPERCENTAJE,
                             b.EmployeeId, 
-                            e.Name + '' '' + e.Lastname EmployeeName
+                            e.Name + '' '' + e.Lastname EmployeeName,
+                            e.EmployeeNumber
 		                FROM BENEFICIARIES b
 		                INNER JOIN COUNTRIES c ON b.CountryId = c.ID
                         INNER JOIN EMPLOYEES e ON e.ID = b.EmployeeId

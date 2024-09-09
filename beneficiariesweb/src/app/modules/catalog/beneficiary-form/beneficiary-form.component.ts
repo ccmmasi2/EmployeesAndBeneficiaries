@@ -117,11 +117,7 @@ export class BeneficiaryFormComponent implements OnInit {
     (error) => {
       const message = `Error cargando paises: "${error}"`
       this.alertService.showAlert(message, 'error'); 
-    })
-
-    const page = 1;  
-    const sizePage = 1000;  
-    const sorting = ''; 
+    }) 
   }  
 
   validateAge(birthDay: Date | string): boolean {
@@ -148,7 +144,6 @@ export class BeneficiaryFormComponent implements OnInit {
         return;
       }
       else {
-        console.log(this.beneficiaryId);
         if(this.beneficiaryId > 0) {
           const beneficiaryRequest: BeneficiaryDTO = this.prepareBeneficiaryDTO();
           beneficiaryRequest.id = this.beneficiaryId;
@@ -217,6 +212,7 @@ export class BeneficiaryFormComponent implements OnInit {
   }
 
   public resetForm(): void {
+    this.beneficiaryId = 0;
     this.selectEmployeeId = 0;
     this.selectCountryId = 0;
     this.name = '';

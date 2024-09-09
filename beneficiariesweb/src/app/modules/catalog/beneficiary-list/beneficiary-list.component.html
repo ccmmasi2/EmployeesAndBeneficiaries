@@ -12,11 +12,16 @@
               <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let element">{{ element.id }}</td>
             </ng-container>   
-  
+            
+            <ng-container matColumnDef="employeeId">
+              <th mat-header-cell mat-sort-header *matHeaderCellDef>ID del empleado</th>
+              <td mat-cell *matCellDef="let element">{{ element.employeeId }}</td>
+            </ng-container>  
+            
             <ng-container matColumnDef="employeeNumber">
               <th mat-header-cell mat-sort-header *matHeaderCellDef>Número de empleado</th>
               <td mat-cell *matCellDef="let element">{{ element.employeeNumber }}</td>
-            </ng-container>      
+            </ng-container>    
   
             <ng-container matColumnDef="employeeName">
               <th mat-header-cell mat-sort-header *matHeaderCellDef>Nombre empleado</th>

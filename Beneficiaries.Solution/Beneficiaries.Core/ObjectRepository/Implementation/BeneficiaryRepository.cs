@@ -98,7 +98,9 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                                 ParticipationPercentaje = reader.GetInt32(reader.GetOrdinal("PARTICIPATIONPERCENTAJE")),
                                 EmployeeName = reader.IsDBNull(reader.GetOrdinal("EmployeeName")) ? null : reader.GetString(reader.GetOrdinal("EmployeeName")),
                                 CountryId = reader.GetInt32(reader.GetOrdinal("CountryId")),
-                                CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName"))
+                                CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName")),
+                                EmployeeId = reader.GetInt64(reader.GetOrdinal("EmployeeId")),
+                                EmployeeNumber = reader.GetInt64(reader.GetOrdinal("EmployeeNumber"))
                             };
                             beneficiaries.Add(beneficiary);
                         }
@@ -169,7 +171,8 @@ namespace Beneficiaries.Core.ObjectRepository.Implementation
                                 EmployeeId = reader.GetInt64(reader.GetOrdinal("EmployeeId")),
                                 EmployeeName = reader.IsDBNull(reader.GetOrdinal("EmployeeName")) ? null : reader.GetString(reader.GetOrdinal("EmployeeName")),
                                 CountryId = reader.GetInt32(reader.GetOrdinal("CountryId")),
-                                CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName"))
+                                CountryName = reader.IsDBNull(reader.GetOrdinal("CountryName")) ? null : reader.GetString(reader.GetOrdinal("CountryName")),
+                                EmployeeNumber = reader.GetInt64(reader.GetOrdinal("EmployeeNumber"))
                             };
                             beneficiaries.Add(beneficiary);
                         }

@@ -132,7 +132,6 @@ export class EmployeeFormComponent implements OnInit {
         return;
       }
       else {
-        console.log(this.employeeId);
         if(this.employeeId > 0) {
           const employeeRequest: EmployeeDTO = this.prepareEmployeeDTO();
           employeeRequest.id = this.employeeId;
