@@ -65,8 +65,16 @@ export class BeneficiaryFormComponent implements OnInit {
       this.beneficiaryForm.reset(beneficiary);
       this.selectCountryId = beneficiary.countryId;
       this.isCollapsed = false; 
+      this.loadEmployee(beneficiary.employeeId);
     });
-  }  
+  } 
+  
+  loadEmployee(employeeId: number){
+    this.apiConnectionService.getEmployeeXId(employeeId)
+    .subscribe((employee) => { 
+      this.selectEmployee(employee);
+    });
+  }
 
   deleteBeneficiary(beneficiaryId: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -222,7 +230,7 @@ export class BeneficiaryFormComponent implements OnInit {
   }
 
   onSearchChange(): void {
-    if (this.searchEmployeeTerm.length > 0) {
+    if (this.searchEmployeeTerm && this.searchEmployeeTerm.length > 0) {
       this.apiConnectionService.getEmployeesXFilter(this.searchEmployeeTerm)
           .subscribe(results => {
               this.employeeResults = results;

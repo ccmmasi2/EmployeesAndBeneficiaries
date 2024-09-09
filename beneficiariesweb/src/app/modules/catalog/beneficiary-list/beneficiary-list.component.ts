@@ -84,7 +84,7 @@ export class BeneficiaryListComponent implements OnInit {
     const offsetX = 240;
     const offsety = 35;
     this.dialog.open(ActionsDialogComponent, {
-      data: { employeeId: beneficiaryObject.employeeId },
+      data: { dataId: beneficiaryObject.id },
       position: {
         top: event.clientY - offsety + 'px',
         left: event.clientX - offsetX + 'px',
